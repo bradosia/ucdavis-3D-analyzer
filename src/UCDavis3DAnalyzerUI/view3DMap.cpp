@@ -22,6 +22,34 @@
  */
 namespace UCD3DA {
 
+void generateMap(OccView *myOccView){
+    // create the shape
+    TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(1000, 1000, 5.0).Shape();
+    Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
+    anAisBox->SetColor(Quantity_NOC_AZURE);
+
+    // myOccView->getContext()->Display(anAisBox, Standard_True);
+    // textured shape
+    Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
+    TCollection_AsciiString aFile("davis.png");
+    aTShape->SetTextureFileName(aFile);
+    aTShape->SetTextureMapOn();
+    // int nRepeat = 1;
+    double toScale = 1;
+    // aTShape->SetTextureRepeat(Standard_True, nRepeat, nRepeat);
+    aTShape->SetTextureRepeat(false, 1, 1);
+    aTShape->SetTextureScale(Standard_True, toScale, toScale);
+    aTShape->SetTextureOrigin(Standard_True, 0, 0);
+    // aTShape->DisableTextureModulate();
+    aTShape->SetDisplayMode(3); // mode 3 is "textured" mode
+    aTShape->SetMaterial(Graphic3d_NOM_SILVER);
+    // myOccView->getContext()->SetDisplayMode(aTShape, 3);
+    // myOccView->getContext()->Display(aTShape, 3,-1);
+    myOccView->getContext()->Display(aTShape, Standard_True);
+    // myOccView->getContext()->Display(aTShape);
+    myOccView->getContext()->UpdateCurrentViewer();
+    aTShape->UpdateAttributes();
+}
 void generateBuildings(OccView *myOccView) {
   rapidjson::Document buildingInfo_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
@@ -80,33 +108,6 @@ void generateBuildings(OccView *myOccView) {
       }
     }
   }
-
-  // create the shape
-  TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(1000, 1000, 5.0).Shape();
-  Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
-  anAisBox->SetColor(Quantity_NOC_AZURE);
-
-  // myOccView->getContext()->Display(anAisBox, Standard_True);
-  // textured shape
-  Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
-  TCollection_AsciiString aFile("davis.bmp");
-  aTShape->SetTextureFileName(aFile);
-  aTShape->SetTextureMapOn();
-  // int nRepeat = 1;
-  double toScale = 1;
-  // aTShape->SetTextureRepeat(Standard_True, nRepeat, nRepeat);
-  aTShape->SetTextureRepeat(false, 1, 1);
-  aTShape->SetTextureScale(Standard_True, toScale, toScale);
-  aTShape->SetTextureOrigin(Standard_True, 0, 0);
-  // aTShape->DisableTextureModulate();
-  aTShape->SetDisplayMode(3); // mode 3 is "textured" mode
-  aTShape->SetMaterial(Graphic3d_NOM_SILVER);
-  // myOccView->getContext()->SetDisplayMode(aTShape, 3);
-  // myOccView->getContext()->Display(aTShape, 3,-1);
-  myOccView->getContext()->Display(aTShape, Standard_True);
-  // myOccView->getContext()->Display(aTShape);
-  myOccView->getContext()->UpdateCurrentViewer();
-  aTShape->UpdateAttributes();
 
   for (std::string buildingObj : buildingCAANlist) {
     if (CAAN_table.find(buildingObj) == CAAN_table.end()) {

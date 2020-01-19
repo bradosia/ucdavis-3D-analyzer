@@ -34,6 +34,7 @@ public:
   float longitude;
 };
 
+void generateMap(OccView *myOccView);
 void generateBuildings(OccView *myOccView);
 
 } // namespace UCD3DA
