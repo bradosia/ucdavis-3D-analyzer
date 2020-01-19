@@ -122,9 +122,9 @@ void generateBuildingsTHREAD(OccView *myOccView) {
     } else {
       coord &coordRef = CAAN_table.at(buildingObj);
       // decrease moves in X
-      float lat_transform = (coordRef.latitude - 38.535) * 30000;
+      float lat_transform = (coordRef.latitude - 38.5311) * 55500;
       // increase moves in Y
-      float lon_transform = (coordRef.longitude + 121.781) * 30000;
+      float lon_transform = (coordRef.longitude + 121.765) * 55500;
 
       if (lat_transform < 2000 && lat_transform > -2000 &&
           lon_transform > -2000 && lon_transform < 2000) {
