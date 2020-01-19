@@ -31,7 +31,7 @@ void generateMap(OccView *myOccView) {
   // myOccView->getContext()->Display(anAisBox, Standard_True);
   // textured shape
   Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
-  TCollection_AsciiString aFile("davis.png");
+  TCollection_AsciiString aFile("../ucdavis-3D-analyzer/resources/map_model/map/davis.png");
   aTShape->SetTextureFileName(aFile);
   aTShape->SetTextureMapOn();
   // int nRepeat = 1;
@@ -121,7 +121,7 @@ void generateBuildingsTHREAD(OccView *myOccView) {
       printf("HASH NOT FOUND: CAAN: %s\n", buildingObj.c_str());
     } else {
       coord &coordRef = CAAN_table.at(buildingObj);
-      float lat_transform = (coordRef.latitude - 38.545) * 10000;
+      float lat_transform = (coordRef.latitude - 38.535) * 10000;
       float lon_transform = (coordRef.longitude + 121.751) * 10000;
 
       if (lat_transform < 1000 && lat_transform > -1000 &&
