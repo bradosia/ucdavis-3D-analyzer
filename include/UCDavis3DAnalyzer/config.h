@@ -16,4 +16,4 @@
  */
 #define SETTINGS_FILE "protein-knot-settings.json"
 //#define DEBUG_JSON
-#define DEBUG_3D_GENERATION
+//#define DEBUG_3D_GENERATION

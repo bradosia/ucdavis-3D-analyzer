@@ -36,6 +36,7 @@ public:
 
 void generateMap(OccView *myOccView);
 void generateBuildings(OccView *myOccView);
+void generateBuildingsTHREAD(OccView *myOccView);
 
 } // namespace UCD3DA
 

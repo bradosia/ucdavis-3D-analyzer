@@ -24,6 +24,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <thread>
 
 // c
 #include <stdio.h>
@@ -114,6 +115,8 @@
 #include <Aspect_Handle.hxx>
 // textured shape
 #include <AIS_TexturedShape.hxx>
+
+#include <Quantity_Color.hxx>
 
 #ifdef WIN32
 #include <WNT_Window.hxx>
