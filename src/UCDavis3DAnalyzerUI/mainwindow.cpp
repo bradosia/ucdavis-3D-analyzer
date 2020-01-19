@@ -571,8 +571,18 @@ void MainWindow::on_actionZoom_triggered() { myOccView->zoom(); }
 
 void MainWindow::on_actionPan_triggered() { myOccView->pan(); }
 
-void MainWindow::on_actionRotate_triggered() { myOccView->rotate(); }
+void MainWindow::on_actionRotate_triggered() {
+    myOccView->rotate();
 
-void MainWindow::on_actionReset_triggered() { myOccView->reset(); }
+}
+
+void MainWindow::on_actionReset_triggered() {
+    myOccView->reset();
+}
 
 void MainWindow::on_actionFitAll_triggered() { myOccView->fitAll(); }
+
+void MainWindow::on_actionSelect_triggered()
+{
+    myOccView->select();
+}

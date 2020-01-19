@@ -81,6 +81,12 @@ public:
         CurAction3d_DynamicRotation
     };
 
+    enum mouse_button_left {
+        mouse_button_left_select,
+        mouse_button_left_rotate,
+        mouse_button_left_pan
+    };
+
 public:
     //! constructor.
     OccView(QWidget* parent);
@@ -92,6 +98,7 @@ signals:
 
 public slots:
     //! operations for the view.
+    void select(void);
     void pan(void);
     void fitAll(void);
     void reset(void);
@@ -153,6 +160,7 @@ private:
 
     //! the mouse current mode.
     CurrentAction3d myCurrentMode;
+    mouse_button_left mouseButtonLeftMode;
 
     //! save the degenerate mode state.
     Standard_Boolean myDegenerateModeIsOn;

@@ -108,6 +108,8 @@ private slots:
 
     void on_actionExtrude_triggered();
 
+    void on_actionSelect_triggered();
+
 private:
     //Ui::MainWindow *ui;
     Ui::occQtClass *ui;

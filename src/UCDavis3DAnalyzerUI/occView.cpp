@@ -26,6 +26,7 @@ OccView::OccView(QWidget *parent)
     : QOpenGLWidget(parent), myXmin(0), myYmin(0), myXmax(0), myYmax(0),
       myCurrentMode(CurAction3d_DynamicRotation),
       myDegenerateModeIsOn(Standard_True), myRectBand(nullptr) {
+   mouseButtonLeftMode = mouse_button_left_select;
   // No Background
   setBackgroundRole(QPalette::NoRole);
 
@@ -111,13 +112,23 @@ void OccView::fitAll(void) {
   myView->Redraw();
 }
 
+void OccView::select(void) {
+    mouseButtonLeftMode = mouse_button_left_select;
+}
+
 void OccView::reset(void) { myView->Reset(); }
 
-void OccView::pan(void) { myCurrentMode = CurAction3d_DynamicPanning; }
+void OccView::pan(void) {
+    myCurrentMode = CurAction3d_DynamicPanning;
+    mouseButtonLeftMode = mouse_button_left_pan;
+}
 
 void OccView::zoom(void) { myCurrentMode = CurAction3d_DynamicZooming; }
 
-void OccView::rotate(void) { myCurrentMode = CurAction3d_DynamicRotation; }
+void OccView::rotate(void) {
+    myCurrentMode = CurAction3d_DynamicRotation;
+    mouseButtonLeftMode = mouse_button_left_rotate;
+}
 
 void OccView::mousePressEvent(QMouseEvent *theEvent) {
   if (theEvent->button() == Qt::LeftButton) {
@@ -156,6 +167,9 @@ void OccView::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   myYmin = thePoint.y();
   myXmax = thePoint.x();
   myYmax = thePoint.y();
+  if(mouseButtonLeftMode == mouse_button_left_rotate){
+      myView->StartRotation(thePoint.x(), thePoint.y());
+  }
 }
 
 void OccView::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) {
@@ -164,7 +178,6 @@ void OccView::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   myYmin = thePoint.y();
   myXmax = thePoint.x();
   myYmax = thePoint.y();
-
   if (myCurrentMode == CurAction3d_DynamicRotation) {
     myView->StartRotation(thePoint.x(), thePoint.y());
   }
@@ -225,7 +238,19 @@ void OccView::onRButtonUp(const int /*theFlags*/, const QPoint thePoint) {
 void OccView::onMouseMove(const int theFlags, const QPoint thePoint) {
   // Draw the rubber band.
   if (theFlags & Qt::LeftButton) {
+switch (mouseButtonLeftMode) {
+case mouse_button_left_rotate:
+  myView->Rotation(thePoint.x(), thePoint.y());
+  break;
+case mouse_button_left_pan:
+  myView->Pan(thePoint.x() - myXmax, myYmax - thePoint.y());
+  myXmax = thePoint.x();
+  myYmax = thePoint.y();
+  break;
 
+default:
+  break;
+}
     //drawRubberBand(myXmin, myYmin, thePoint.x(), thePoint.y());
 
     //dragEvent(thePoint.x(), thePoint.y());
