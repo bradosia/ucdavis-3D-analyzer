@@ -122,16 +122,16 @@ void generateBuildingsTHREAD(OccView *myOccView) {
     } else {
       coord &coordRef = CAAN_table.at(buildingObj);
       // decrease moves in X
-      float lat_transform = (coordRef.latitude - 38.505) * 20000;
+      float lat_transform = (coordRef.latitude - 38.535) * 30000;
       // increase moves in Y
-      float lon_transform = (coordRef.longitude + 121.781) * 20000;
+      float lon_transform = (coordRef.longitude + 121.781) * 30000;
 
       if (lat_transform < 2000 && lat_transform > -2000 &&
           lon_transform > -2000 && lon_transform < 2000) {
         gp_Ax2 anAxis;
         anAxis.SetLocation(gp_Pnt(lat_transform, lon_transform, -8.0));
         TopoDS_Shape aTopoReducer =
-            BRepPrimAPI_MakeCone(anAxis, 1.0, 0.5, 5.0).Shape();
+            BRepPrimAPI_MakeCone(anAxis, 3.0, 2.0, 5.0).Shape();
         Handle(AIS_Shape) anAisReducer = new AIS_Shape(aTopoReducer);
         // color some markers for testing
         if (((coordRef.latitude < 38.53767461399 + epsilon &&

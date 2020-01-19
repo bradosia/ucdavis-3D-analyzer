@@ -78,6 +78,7 @@ endif()
 
     src/UCDavis3DAnalyzerUI/occQt.ui
     resources/occqt.qrc
+    resources/icons_utility.qrc
  )
 
 target_link_directories(${EXENAME} PRIVATE

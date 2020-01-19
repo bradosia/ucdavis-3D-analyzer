@@ -583,3 +583,8 @@ void MainWindow::on_actionSelect_triggered() { myOccView->select(); }
 void MainWindow::on_actionPlace_Buildings_triggered() {
   UCD3DA::generateBuildings(myOccView);
 }
+
+void MainWindow::on_actionEnergyUsage_triggered()
+{
+    UCD3DA::generateBuildings(myOccView);
+}

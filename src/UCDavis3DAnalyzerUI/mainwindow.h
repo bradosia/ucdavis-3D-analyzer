@@ -107,6 +107,8 @@ private slots:
 
   void on_actionPlace_Buildings_triggered();
 
+  void on_actionEnergyUsage_triggered();
+
 private:
   // Ui::MainWindow *ui;
   Ui::occQtClass *ui;
