@@ -81,22 +81,58 @@ void generateBuildings(OccView *myOccView) {
     }
   }
 
+  // create the shape
+  TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(1000, 1000, 5.0).Shape();
+  Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
+  anAisBox->SetColor(Quantity_NOC_AZURE);
+
+  // myOccView->getContext()->Display(anAisBox, Standard_True);
+  // textured shape
+  Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
+  TCollection_AsciiString aFile("davis.bmp");
+  aTShape->SetTextureFileName(aFile);
+  aTShape->SetTextureMapOn();
+  // int nRepeat = 1;
+  double toScale = 1;
+  // aTShape->SetTextureRepeat(Standard_True, nRepeat, nRepeat);
+  aTShape->SetTextureRepeat(false, 1, 1);
+  aTShape->SetTextureScale(Standard_True, toScale, toScale);
+  aTShape->SetTextureOrigin(Standard_True, 0, 0);
+  // aTShape->DisableTextureModulate();
+  aTShape->SetDisplayMode(3); // mode 3 is "textured" mode
+  aTShape->SetMaterial(Graphic3d_NOM_SILVER);
+  // myOccView->getContext()->SetDisplayMode(aTShape, 3);
+  // myOccView->getContext()->Display(aTShape, 3,-1);
+  myOccView->getContext()->Display(aTShape, Standard_True);
+  // myOccView->getContext()->Display(aTShape);
+  myOccView->getContext()->UpdateCurrentViewer();
+  aTShape->UpdateAttributes();
+
   for (std::string buildingObj : buildingCAANlist) {
     if (CAAN_table.find(buildingObj) == CAAN_table.end()) {
       printf("HASH NOT FOUND: CAAN: %s\n", buildingObj.c_str());
     } else {
       coord &coordRef = CAAN_table.at(buildingObj);
-      printf("HASH CAAN: %s (%f,%f)\n", buildingObj.c_str(), coordRef.latitude,
-             coordRef.longitude);
+      /*printf("HASH CAAN: %s (%f,%f)\n", buildingObj.c_str(),
+         coordRef.latitude, coordRef.longitude);*/
+      float lat_transform = (coordRef.latitude - 38.52) * 10000;
+      float lon_transform = (coordRef.longitude + 121.75) * 10000;
+
+      if(lat_transform < 1000 && lat_transform > -500 && lon_transform > -1000 && lon_transform < 500){
+      gp_Ax2 anAxis;
+      anAxis.SetLocation(gp_Pnt(lat_transform, lon_transform, 10.0));
+      TopoDS_Shape aTopoReducer =
+          BRepPrimAPI_MakeCone(anAxis, 1.0, 0.5, 5.0).Shape();
+      Handle(AIS_Shape) anAisReducer = new AIS_Shape(aTopoReducer);
+      anAisReducer->SetColor(Quantity_NOC_BISQUE);
+      myOccView->getContext()->Display(anAisReducer, Standard_True);
+#ifdef DEBUG_3D_GENERATION
+      }
+      printf("MARKER: %s (%f,%f)\n", buildingObj.c_str(), lat_transform,
+             lon_transform);
+#endif
     }
   }
-
-  TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(3.0, 4.0, 5.0).Shape();
-  Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
-
-  anAisBox->SetColor(Quantity_NOC_AZURE);
-
-  myOccView->getContext()->Display(anAisBox, Standard_True);
 }
 
 } // namespace UCD3DA

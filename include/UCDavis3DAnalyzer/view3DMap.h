@@ -20,6 +20,8 @@
 
 #include "UCDavis3DAnalyzer/amalgamated.h"
 
+class OccView;
+
 /*
  * UCD3DA = UC Davis 3D Analyzer
  */
@@ -32,7 +34,7 @@ public:
   float longitude;
 };
 
-void generateBuildings(Ui::OccView *myOccView);
+void generateBuildings(OccView *myOccView);
 
 } // namespace UCD3DA
 

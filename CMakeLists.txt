@@ -81,11 +81,14 @@ endif()
  )
 
 target_link_directories(${EXENAME} PRIVATE
-lib)
+lib third_party/OGRE/lib)
 
 target_link_libraries(${EXENAME} PRIVATE
 # QT5
 Qt5::Widgets
+
+# OGRE
+OgreMain
 
 # 3D openCascade
 TKSTEP
@@ -178,6 +181,7 @@ include
 third_party
 third_party/OCCT
 third_party/aconf
+third_party/OGRE/include
 )
 
 # Installation

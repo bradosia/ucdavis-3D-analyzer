@@ -29,6 +29,11 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+ * Configuration
+ */
+#include <UCDavis3DAnalyzer/config.h>
+
 /* rapidjson v1.1 (2016-8-25)
  * Developed by Tencent
  */
@@ -39,6 +44,10 @@
 /* OSIsoft API
  */
 #include "UCDavis3DAnalyzer/osisoft_pi_api.h"
+
+/* OGRE
+ */
+#include <OGRE/Ogre.h>
 
 /* openCascade (OCCT) 7.4.0
  * OCCT library is designed to be truly modular and extensible, providing C++
@@ -103,6 +112,29 @@
 #include <XCAFDoc_ColorTool.hxx>
 
 #include <AIS_InteractiveContext.hxx>
+#include <OpenGl_GraphicDriver.hxx>
+#include <V3d_View.hxx>
+#include <Aspect_DisplayConnection.hxx>
+#include <Aspect_Handle.hxx>
+// textured shape
+#include <AIS_TexturedShape.hxx>
+
+#ifdef WIN32
+#include <WNT_Window.hxx>
+#elif defined(__APPLE__) && !defined(MACOSX_USE_GLX)
+#include <Cocoa_Window.hxx>
+#else
+#undef Bool
+#undef CursorShape
+#undef None
+#undef KeyPress
+#undef KeyRelease
+#undef FocusIn
+#undef FocusOut
+#undef FontChange
+#undef Expose
+#include <Xw_Window.hxx>
+#endif
 
 /* QT 5.13.2-1
  * License: LGPLv3
@@ -119,6 +151,14 @@
 #include <QString>
 #include <QToolBar>
 #include <QTreeView>
+#include <QMouseEvent>
+#include <QStyleFactory>
+
+/*
+ * 3D View
+ */
+#include "UCDavis3DAnalyzer/occView.h"
+#include "UCDavis3DAnalyzer/view3DMap.h"
 
 /*
  * UCD3DA = UC Davis 3D Analyzer

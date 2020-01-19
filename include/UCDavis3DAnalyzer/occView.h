@@ -26,43 +26,14 @@
  *    Description : Adapte OpenCASCADE view for Qt.
  */
 
-#ifndef _OCCVIEW_H_
-#define _OCCVIEW_H_
+#ifndef OCC_VIEW_H
+#define OCC_VIEW_H
 
 /* proteinKnotAnalyzer 1.00
  * Analysis utilities for PDB format support and
  * STEP file export for visualization
  */
 #include "UCDavis3DAnalyzer/amalgamated.h"
-
-#include <QMenu>
-#include <QMouseEvent>
-#include <QRubberBand>
-#include <QStyleFactory>
-
-#include <OpenGl_GraphicDriver.hxx>
-
-#include <V3d_View.hxx>
-
-#include <Aspect_DisplayConnection.hxx>
-#include <Aspect_Handle.hxx>
-
-#ifdef WIN32
-#include <WNT_Window.hxx>
-#elif defined(__APPLE__) && !defined(MACOSX_USE_GLX)
-#include <Cocoa_Window.hxx>
-#else
-#undef Bool
-#undef CursorShape
-#undef None
-#undef KeyPress
-#undef KeyRelease
-#undef FocusIn
-#undef FocusOut
-#undef FontChange
-#undef Expose
-#include <Xw_Window.hxx>
-#endif
 
 //! adapted a QOpenGLWidget for OpenCASCADE viewer.
 class OccView : public QOpenGLWidget {
@@ -169,4 +140,4 @@ private:
   QOpenGLContext *mOpenGLContext;
 };
 
-#endif // _OCCVIEW_H_
+#endif // OCC_VIEW_H

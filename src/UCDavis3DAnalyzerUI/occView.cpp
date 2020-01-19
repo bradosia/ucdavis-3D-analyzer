@@ -86,6 +86,9 @@ void OccView::init() {
                           V3d_ZBUFFER);
 
   myContext->SetDisplayMode(AIS_Shaded, Standard_True);
+
+  // flip rotation because of weird texture inversion
+  myView->Rotate(90, 90, 180, 0, 0, 0);
 }
 
 const Handle(AIS_InteractiveContext) & OccView::getContext() const {

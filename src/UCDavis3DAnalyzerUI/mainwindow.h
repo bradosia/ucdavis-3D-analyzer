@@ -18,11 +18,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-/*
- * Configuration
- */
-#include <UCDavis3DAnalyzer/config.h>
-
 // c++
 #include <algorithm> // std::find
 #include <filesystem>
@@ -35,7 +30,6 @@
  * 3D model analysis of UC Davis utility usage
  */
 #include "UCDavis3DAnalyzer/amalgamated.h"
-#include "UCDavis3DAnalyzer/occView.h"
 
 /*
  * UI
