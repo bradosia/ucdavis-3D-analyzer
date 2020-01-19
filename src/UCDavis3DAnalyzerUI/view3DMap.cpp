@@ -147,8 +147,9 @@ void generateBuildingsTHREAD(OccView *myOccView) {
           anAisReducer->SetColor(
               Quantity_Color(0, 1, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         } else {
+            double r = ((double) rand() / (RAND_MAX)) + 1;
           anAisReducer->SetColor(
-              Quantity_Color(1, 0, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
+              Quantity_Color(r, 0, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         }
         myOccView->getContext()->Display(anAisReducer, Standard_True);
       }
