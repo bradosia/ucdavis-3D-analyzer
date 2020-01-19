@@ -45,10 +45,6 @@
  */
 #include "UCDavis3DAnalyzer/osisoft_pi_api.h"
 
-/* OGRE
- */
-#include <OGRE/Ogre.h>
-
 /* openCascade (OCCT) 7.4.0
  * OCCT library is designed to be truly modular and extensible, providing C++
  * classes for: -Basic data structures (geometric modeling, visualization,
