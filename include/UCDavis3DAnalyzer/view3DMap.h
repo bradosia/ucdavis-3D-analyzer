@@ -32,7 +32,7 @@ public:
   float longitude;
 };
 
-void generateBuildings();
+void generateBuildings(Ui::OccView *myOccView);
 
 } // namespace UCD3DA
 

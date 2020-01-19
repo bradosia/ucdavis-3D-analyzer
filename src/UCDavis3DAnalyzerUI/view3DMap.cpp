@@ -22,7 +22,7 @@
  */
 namespace UCD3DA {
 
-void generateBuildings() {
+void generateBuildings(OccView *myOccView) {
   rapidjson::Document buildingInfo_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwJhSOEaMUUUyOuVv2CDalxgVVRJTC1BRlxBQ0VcVEFCTEVT"
@@ -32,16 +32,16 @@ void generateBuildings() {
       "F1BlbgZy4oKQ9kiBiZJTW7eugwaKgvLoXhX0GjDFptjwvTcQVVRJTC1BRlxDRUZTXFRBQkxF"
       "U1tMQVRfTE9OR19EQVRBXQ/data");
   /*std::ofstream ofs("test.json");
-    if ( !ofs.is_open() )
-        {
-       printf("ERROR: output file not found: %s\n","test.json");
-          return ;
-        }
+  if ( !ofs.is_open() )
+      {
+     printf("ERROR: output file not found: %s\n","test.json");
+        return ;
+      }
 
-         rapidjson::OStreamWrapper osw { ofs };
-         rapidjson::PrettyWriter< rapidjson::OStreamWrapper> writer2 { osw };
-        buildingInfo_JSON_Doc.Accept( writer2 );
-        */
+       rapidjson::OStreamWrapper osw { ofs };
+       rapidjson::PrettyWriter< rapidjson::OStreamWrapper> writer2 { osw };
+      buildingInfo_JSON_Doc.Accept( writer2 );
+      */
   std::unordered_map<std::string, coord> CAAN_table;
   if (CAAN_JSON_Doc.IsObject()) {
     if (CAAN_JSON_Doc.HasMember("Rows") && CAAN_JSON_Doc["Rows"].IsArray()) {
@@ -90,6 +90,13 @@ void generateBuildings() {
              coordRef.longitude);
     }
   }
+
+  TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(3.0, 4.0, 5.0).Shape();
+  Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
+
+  anAisBox->SetColor(Quantity_NOC_AZURE);
+
+  myOccView->getContext()->Display(anAisBox, Standard_True);
 }
 
 } // namespace UCD3DA

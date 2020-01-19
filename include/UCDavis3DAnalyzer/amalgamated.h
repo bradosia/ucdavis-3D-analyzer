@@ -120,10 +120,6 @@
 #include <QToolBar>
 #include <QTreeView>
 
-/* High level code for project
- */
-#include "UCDavis3DAnalyzer/view3DMap.h"
-
 /*
  * UCD3DA = UC Davis 3D Analyzer
  */

@@ -581,5 +581,5 @@ void MainWindow::on_actionFitAll_triggered() { myOccView->fitAll(); }
 void MainWindow::on_actionSelect_triggered() { myOccView->select(); }
 
 void MainWindow::on_actionPlace_Buildings_triggered() {
-  UCD3DA::generateBuildings();
+  UCD3DA::generateBuildings(myOccView);
 }
