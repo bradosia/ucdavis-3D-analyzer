@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons_cad/FitAll.png</file>
+        <file>icons_cad/Home.png</file>
+        <file>icons_cad/Pan.png</file>
+        <file>icons_cad/Rotate.png</file>
+        <file>icons_cad/Zoom.png</file>
+        <file>icons_cad/cone.png</file>
+        <file>icons_cad/cylinder.png</file>
+        <file>icons_cad/sphere.png</file>
+        <file>icons_cad/box.png</file>
+        <file>icons_cad/torus.png</file>
+        <file>icons_cad/chamfer.png</file>
+        <file>icons_cad/fillet.png</file>
+        <file>icons_cad/lamp.png</file>
+        <file>icons_cad/common.png</file>
+        <file>icons_cad/cut.png</file>
+        <file>icons_cad/fuse.png</file>
+        <file>icons_cad/extrude.png</file>
+        <file>icons_cad/loft.png</file>
+        <file>icons_cad/revolve.png</file>
+        <file>icons_cad/helix.png</file>
+        <file>icons_cad/click.svg</file>
+    </qresource>
+</RCC>
