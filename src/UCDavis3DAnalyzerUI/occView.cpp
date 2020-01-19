@@ -89,7 +89,7 @@ void OccView::init() {
 
   // flip rotation because of weird texture inversion
   UCD3DA::generateMap(this);
-  myView->Rotate(90, 90, 180, 0, 0, 0);
+  myView->Rotate(270, 90, 180, 0, 0, 0);
   fitAll();
 }
 

@@ -121,11 +121,13 @@ void generateBuildingsTHREAD(OccView *myOccView) {
       printf("HASH NOT FOUND: CAAN: %s\n", buildingObj.c_str());
     } else {
       coord &coordRef = CAAN_table.at(buildingObj);
-      float lat_transform = (coordRef.latitude - 38.535) * 10000;
-      float lon_transform = (coordRef.longitude + 121.751) * 10000;
+      // decrease moves in X
+      float lat_transform = (coordRef.latitude - 38.505) * 20000;
+      // increase moves in Y
+      float lon_transform = (coordRef.longitude + 121.781) * 20000;
 
-      if (lat_transform < 1000 && lat_transform > -1000 &&
-          lon_transform > -1000 && lon_transform < 1000) {
+      if (lat_transform < 2000 && lat_transform > -2000 &&
+          lon_transform > -2000 && lon_transform < 2000) {
         gp_Ax2 anAxis;
         anAxis.SetLocation(gp_Pnt(lat_transform, lon_transform, -8.0));
         TopoDS_Shape aTopoReducer =
