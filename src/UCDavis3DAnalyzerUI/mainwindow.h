@@ -110,6 +110,8 @@ private slots:
 
     void on_actionSelect_triggered();
 
+    void on_actionPlace_Buildings_triggered();
+
 private:
     //Ui::MainWindow *ui;
     Ui::occQtClass *ui;

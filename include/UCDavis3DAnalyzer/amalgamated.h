@@ -23,6 +23,7 @@
 #include <iostream>
 #include <memory>
 #include <utility>
+#include <unordered_map>
 
 // c
 #include <stdio.h>
@@ -34,6 +35,10 @@
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/reader.h" // rapidjson::ParseResult
+
+/* OSIsoft API
+ */
+#include "UCDavis3DAnalyzer/osisoft_pi_api.h"
 
 /* openCascade (OCCT) 7.4.0
  * OCCT library is designed to be truly modular and extensible, providing C++ classes for:
@@ -115,6 +120,10 @@
 #include <QMenu>
 #include <QRubberBand>
 #include <QOpenGLContext>
+
+/* High level code for project
+ */
+#include "UCDavis3DAnalyzer/view3DMap.h"
 
 /*
  * UCD3DA = UC Davis 3D Analyzer

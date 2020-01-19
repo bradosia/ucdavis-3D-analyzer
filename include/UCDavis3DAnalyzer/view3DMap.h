@@ -14,5 +14,28 @@
  *
  * Icons and images owned by their respective owners
  */
-#define SETTINGS_FILE "protein-knot-settings.json"
-#define DEBUG_JSON
+
+#ifndef VIEW_3D_MAP_H
+#define VIEW_3D_MAP_H
+
+#include "UCDavis3DAnalyzer/amalgamated.h"
+
+/*
+ * UCD3DA = UC Davis 3D Analyzer
+ */
+namespace UCD3DA {
+
+class coord {
+public:
+    coord(float lat,float lon) : latitude(lat), longitude(lon){
+
+    }
+    float latitude;
+    float longitude;
+};
+
+void generateBuildings();
+
+} // namespace UCD3DA
+
+#endif // end VIEW_3D_MAP_H

@@ -79,10 +79,17 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuOSIsoft_API">
+    <property name="title">
+     <string>OSIsoft API</string>
+    </property>
+    <addaction name="actionPlace_Buildings"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
    <addaction name="menuPrimitive"/>
    <addaction name="menuModeling"/>
+   <addaction name="menuOSIsoft_API"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -309,6 +316,11 @@
    </property>
    <property name="text">
     <string>Select</string>
+   </property>
+  </action>
+  <action name="actionPlace_Buildings">
+   <property name="text">
+    <string>Place Buildings</string>
    </property>
   </action>
  </widget>

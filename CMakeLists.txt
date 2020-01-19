@@ -61,6 +61,8 @@ endif()
  add_executable(${EXENAME}
     src/UCDavis3DAnalyzerUI/main.cpp
     src/UCDavis3DAnalyzerUI/mainwindow.cpp
+    src/UCDavis3DAnalyzerUI/osisoft_pi_api.cpp
+    src/UCDavis3DAnalyzerUI/view3DMap.cpp
 
     src/UCDavis3DAnalyzerUI/amalgamated.cpp
     src/UCDavis3DAnalyzerUI/occView.cpp
@@ -71,6 +73,8 @@ endif()
     include/UCDavis3DAnalyzer/amalgamated.h
     include/UCDavis3DAnalyzer/occView.h
     include/UCDavis3DAnalyzer/config.h
+    include/UCDavis3DAnalyzer/osisoft_pi_api.h
+    include/UCDavis3DAnalyzer/view3DMap.h
 
     src/UCDavis3DAnalyzerUI/occQt.ui
     resources/occqt.qrc
