@@ -115,6 +115,7 @@ void generateBuildingsTHREAD(OccView *myOccView) {
       }
     }
   }
+  srand(time(0));
   float epsilon = 0.00001;
   for (std::string buildingObj : buildingCAANlist) {
     if (CAAN_table.find(buildingObj) == CAAN_table.end()) {
@@ -147,7 +148,8 @@ void generateBuildingsTHREAD(OccView *myOccView) {
           anAisReducer->SetColor(
               Quantity_Color(0, 1, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         } else {
-            double r = ((double) rand() / (RAND_MAX)) + 1;
+            // need API call for electricity data, but same concept
+            float r = (float) rand()/RAND_MAX;
           anAisReducer->SetColor(
               Quantity_Color(r, 0, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         }
