@@ -20,12 +20,12 @@
 #endif
 /* There is a bug in the version of gcc which ships with MacOS X 10.2 */
 #if defined(__APPLE__) && defined(__MACH__)
-#  include <AvailabilityMacros.h>
+#include <AvailabilityMacros.h>
 #endif
 #ifdef MAC_OS_X_VERSION_MAX_ALLOWED
-#  if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_2
-#    undef USE_GCC_PRAGMAS
-#  endif
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_2
+#undef USE_GCC_PRAGMAS
+#endif
 #endif
 
 /*

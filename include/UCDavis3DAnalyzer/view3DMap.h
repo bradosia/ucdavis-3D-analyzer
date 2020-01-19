@@ -27,11 +27,9 @@ namespace UCD3DA {
 
 class coord {
 public:
-    coord(float lat,float lon) : latitude(lat), longitude(lon){
-
-    }
-    float latitude;
-    float longitude;
+  coord(float lat, float lon) : latitude(lat), longitude(lon) {}
+  float latitude;
+  float longitude;
 };
 
 void generateBuildings();

@@ -26,17 +26,17 @@ OccView::OccView(QWidget *parent)
     : QOpenGLWidget(parent), myXmin(0), myYmin(0), myXmax(0), myYmax(0),
       myCurrentMode(CurAction3d_DynamicRotation),
       myDegenerateModeIsOn(Standard_True), myRectBand(nullptr) {
-   mouseButtonLeftMode = mouse_button_left_select;
+  mouseButtonLeftMode = mouse_button_left_select;
   // No Background
   setBackgroundRole(QPalette::NoRole);
 
   // Enable the mouse tracking, by default the mouse tracking is disabled.
   setMouseTracking(true);
 
-  //mOpenGLContext = new QOpenGLContext(this);
-  //QSurfaceFormat format = requestedFormat();
-  //mOpenGLContext->setScreen(this->screen);
-  //mOpenGLContext->create();
+  // mOpenGLContext = new QOpenGLContext(this);
+  // QSurfaceFormat format = requestedFormat();
+  // mOpenGLContext->setScreen(this->screen);
+  // mOpenGLContext->create();
 }
 
 void OccView::init() {
@@ -112,22 +112,20 @@ void OccView::fitAll(void) {
   myView->Redraw();
 }
 
-void OccView::select(void) {
-    mouseButtonLeftMode = mouse_button_left_select;
-}
+void OccView::select(void) { mouseButtonLeftMode = mouse_button_left_select; }
 
 void OccView::reset(void) { myView->Reset(); }
 
 void OccView::pan(void) {
-    myCurrentMode = CurAction3d_DynamicPanning;
-    mouseButtonLeftMode = mouse_button_left_pan;
+  myCurrentMode = CurAction3d_DynamicPanning;
+  mouseButtonLeftMode = mouse_button_left_pan;
 }
 
 void OccView::zoom(void) { myCurrentMode = CurAction3d_DynamicZooming; }
 
 void OccView::rotate(void) {
-    myCurrentMode = CurAction3d_DynamicRotation;
-    mouseButtonLeftMode = mouse_button_left_rotate;
+  myCurrentMode = CurAction3d_DynamicRotation;
+  mouseButtonLeftMode = mouse_button_left_rotate;
 }
 
 void OccView::mousePressEvent(QMouseEvent *theEvent) {
@@ -167,8 +165,8 @@ void OccView::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   myYmin = thePoint.y();
   myXmax = thePoint.x();
   myYmax = thePoint.y();
-  if(mouseButtonLeftMode == mouse_button_left_rotate){
-      myView->StartRotation(thePoint.x(), thePoint.y());
+  if (mouseButtonLeftMode == mouse_button_left_rotate) {
+    myView->StartRotation(thePoint.x(), thePoint.y());
   }
 }
 
@@ -238,22 +236,22 @@ void OccView::onRButtonUp(const int /*theFlags*/, const QPoint thePoint) {
 void OccView::onMouseMove(const int theFlags, const QPoint thePoint) {
   // Draw the rubber band.
   if (theFlags & Qt::LeftButton) {
-switch (mouseButtonLeftMode) {
-case mouse_button_left_rotate:
-  myView->Rotation(thePoint.x(), thePoint.y());
-  break;
-case mouse_button_left_pan:
-  myView->Pan(thePoint.x() - myXmax, myYmax - thePoint.y());
-  myXmax = thePoint.x();
-  myYmax = thePoint.y();
-  break;
+    switch (mouseButtonLeftMode) {
+    case mouse_button_left_rotate:
+      myView->Rotation(thePoint.x(), thePoint.y());
+      break;
+    case mouse_button_left_pan:
+      myView->Pan(thePoint.x() - myXmax, myYmax - thePoint.y());
+      myXmax = thePoint.x();
+      myYmax = thePoint.y();
+      break;
 
-default:
-  break;
-}
-    //drawRubberBand(myXmin, myYmin, thePoint.x(), thePoint.y());
+    default:
+      break;
+    }
+    // drawRubberBand(myXmin, myYmin, thePoint.x(), thePoint.y());
 
-    //dragEvent(thePoint.x(), thePoint.y());
+    // dragEvent(thePoint.x(), thePoint.y());
   }
 
   // Ctrl for multi selection.

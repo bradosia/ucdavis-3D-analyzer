@@ -19,11 +19,11 @@
 #define PKA_AMALGAMATED_H
 
 // c++17
-#include <string>
 #include <iostream>
 #include <memory>
-#include <utility>
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 // c
 #include <stdio.h>
@@ -33,20 +33,19 @@
  * Developed by Tencent
  */
 #include "rapidjson/document.h"
-#include "rapidjson/stringbuffer.h"
 #include "rapidjson/reader.h" // rapidjson::ParseResult
+#include "rapidjson/stringbuffer.h"
 
 /* OSIsoft API
  */
 #include "UCDavis3DAnalyzer/osisoft_pi_api.h"
 
 /* openCascade (OCCT) 7.4.0
- * OCCT library is designed to be truly modular and extensible, providing C++ classes for:
- * -Basic data structures (geometric modeling, visualization, interactive selection and
- * application specific services);
- * -Modeling algorithms;
- * -Working with mesh (faceted) data;
- * -Data interoperability with neutral formats (IGES, STEP);
+ * OCCT library is designed to be truly modular and extensible, providing C++
+ * classes for: -Basic data structures (geometric modeling, visualization,
+ * interactive selection and application specific services); -Modeling
+ * algorithms; -Working with mesh (faceted) data; -Data interoperability with
+ * neutral formats (IGES, STEP);
  */
 #include <gp_Circ.hxx>
 #include <gp_Elips.hxx>
@@ -55,52 +54,52 @@
 #include <gp_Lin2d.hxx>
 
 #include <Geom_ConicalSurface.hxx>
-#include <Geom_ToroidalSurface.hxx>
 #include <Geom_CylindricalSurface.hxx>
+#include <Geom_ToroidalSurface.hxx>
 
 #include <GCE2d_MakeSegment.hxx>
 
-#include <TopoDS.hxx>
-#include <TopoDS_Shape.hxx>
+#include <TColgp_Array1OfPnt2d.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
-#include <TColgp_Array1OfPnt2d.hxx>
+#include <TopoDS.hxx>
+#include <TopoDS_Shape.hxx>
 
 #include <BRepLib.hxx>
 
-#include <BRepBuilderAPI_MakeVertex.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
-#include <BRepBuilderAPI_Transform.hxx>
 #include <BRepBuilderAPI_MakePolygon.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
+#include <BRepBuilderAPI_MakeWire.hxx>
+#include <BRepBuilderAPI_Transform.hxx>
 
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <BRepPrimAPI_MakeCone.hxx>
-#include <BRepPrimAPI_MakeSphere.hxx>
 #include <BRepPrimAPI_MakeCylinder.hxx>
-#include <BRepPrimAPI_MakeTorus.hxx>
 #include <BRepPrimAPI_MakePrism.hxx>
 #include <BRepPrimAPI_MakeRevol.hxx>
+#include <BRepPrimAPI_MakeSphere.hxx>
+#include <BRepPrimAPI_MakeTorus.hxx>
 
-#include <BRepFilletAPI_MakeFillet.hxx>
 #include <BRepFilletAPI_MakeChamfer.hxx>
+#include <BRepFilletAPI_MakeFillet.hxx>
 
 #include <BRepOffsetAPI_MakePipe.hxx>
 #include <BRepOffsetAPI_ThruSections.hxx>
 
+#include <BRepAlgoAPI_Common.hxx>
 #include <BRepAlgoAPI_Cut.hxx>
 #include <BRepAlgoAPI_Fuse.hxx>
-#include <BRepAlgoAPI_Common.hxx>
 
 #include <AIS_Shape.hxx>
 
-#include <STEPControl_Writer.hxx>
+#include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepTools.hxx>
 #include <BRep_Builder.hxx>
 #include <Interface_Static.hxx>
+#include <STEPControl_Writer.hxx>
 #include <TopoDS_Edge.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
 #include <XCAFDoc_ColorTool.hxx>
 
 #include <AIS_InteractiveContext.hxx>
@@ -109,17 +108,17 @@
  * License: LGPLv3
  */
 #include <QApplication>
-#include <QMainWindow>
-#include <QString>
-#include <QFileDialog>
 #include <QFile>
-#include <QTreeView>
-#include <QOpenGLWidget>
-#include <QMessageBox>
-#include <QToolBar>
+#include <QFileDialog>
+#include <QMainWindow>
 #include <QMenu>
-#include <QRubberBand>
+#include <QMessageBox>
 #include <QOpenGLContext>
+#include <QOpenGLWidget>
+#include <QRubberBand>
+#include <QString>
+#include <QToolBar>
+#include <QTreeView>
 
 /* High level code for project
  */
@@ -137,10 +136,10 @@ namespace UCD3DA {
  */
 class OCCT_Shape {
 public:
-	std::unique_ptr<TopoDS_Shape> shape_;
-	int writeSTEP(char *path);
+  std::unique_ptr<TopoDS_Shape> shape_;
+  int writeSTEP(char *path);
 };
 
-} // namespace PKA
+} // namespace UCD3DA
 
 #endif

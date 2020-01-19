@@ -48,7 +48,8 @@ void MainWindow::on_actionOpen_triggered() {
 void MainWindow::on_actionAbout_triggered() {
   QMessageBox::about(
       this, tr("About UC Davis 3D Analyzer"),
-      tr("<h2>UC Davis 3D Analyzer 1.0</h2><p>Author: Brad Lee & SiYi Meng</p><p>Framework of QT5 and OCC:"
+      tr("<h2>UC Davis 3D Analyzer 1.0</h2><p>Author: Brad Lee & SiYi "
+         "Meng</p><p>Framework of QT5 and OCC:"
          "Copyright &copy; 2014 eryar@163.com</p>"
          "<p>Icons made by <a "
          "href=\"https://www.flaticon.com/authors/pixel-perfect\" "
@@ -571,23 +572,14 @@ void MainWindow::on_actionZoom_triggered() { myOccView->zoom(); }
 
 void MainWindow::on_actionPan_triggered() { myOccView->pan(); }
 
-void MainWindow::on_actionRotate_triggered() {
-    myOccView->rotate();
+void MainWindow::on_actionRotate_triggered() { myOccView->rotate(); }
 
-}
-
-void MainWindow::on_actionReset_triggered() {
-    myOccView->reset();
-}
+void MainWindow::on_actionReset_triggered() { myOccView->reset(); }
 
 void MainWindow::on_actionFitAll_triggered() { myOccView->fitAll(); }
 
-void MainWindow::on_actionSelect_triggered()
-{
-    myOccView->select();
-}
+void MainWindow::on_actionSelect_triggered() { myOccView->select(); }
 
-void MainWindow::on_actionPlace_Buildings_triggered()
-{
- UCD3DA::generateBuildings();
+void MainWindow::on_actionPlace_Buildings_triggered() {
+  UCD3DA::generateBuildings();
 }

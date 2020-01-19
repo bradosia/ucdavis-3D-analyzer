@@ -11,11 +11,11 @@
 
 // c++17
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <fstream>
 
 // c
 #include <stdio.h>
@@ -44,12 +44,12 @@
  * License: MITs
  */
 #include "rapidjson/document.h"
-#include "rapidjson/reader.h" // rapidjson::ParseResult
-#include "rapidjson/writer.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/ostreamwrapper.h"
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/reader.h" // rapidjson::ParseResult
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
 
 /* QT 5.13.2-1
  * License: LGPLv3
@@ -74,9 +74,11 @@ rapidjson::Document HTTPS_GET_JSON(std::string URI);
 void printJSON_value(const rapidjson::Value &a, unsigned int depth);
 void printJSON_iterator(rapidjson::Value::ConstMemberIterator &itr,
                         unsigned int depth);
-void getSettingsFile(std::string settingsFileString, std::string &inputURIString, std::string &outputFileString);
+void getSettingsFile(std::string settingsFileString,
+                     std::string &inputURIString,
+                     std::string &outputFileString);
 
-} // namespace PWA_UCD
+} // namespace UCD3DA
 
 // end PWA_UCD
 
