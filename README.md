@@ -7,3 +7,9 @@ A visual 3D viewer for UC Davis electricity usage.
 ![demo_photo-2](https://github.com/bradosia/ucdavis-3D-analyzer/blob/master/share/screen-shot-main.jpg?raw=true)
 
 ![demo_photo-3](https://github.com/bradosia/ucdavis-3D-analyzer/blob/master/share/screen-shot-phone-app.jpg?raw=true)
+
+# Libraries used
+
+# Licence 
+LGPL
+
