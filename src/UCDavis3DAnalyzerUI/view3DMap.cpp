@@ -131,8 +131,9 @@ void generateBuildingsTHREAD(OccView *myOccView) {
           lon_transform > -2000 && lon_transform < 2000) {
         gp_Ax2 anAxis;
         anAxis.SetLocation(gp_Pnt(lat_transform, lon_transform, -8.0));
+        float r = (float) rand()/RAND_MAX;
         TopoDS_Shape aTopoReducer =
-            BRepPrimAPI_MakeCone(anAxis, 3.0, 2.0, 5.0).Shape();
+            BRepPrimAPI_MakeCone(anAxis, 3.0, 2.0, r*20).Shape();
         Handle(AIS_Shape) anAisReducer = new AIS_Shape(aTopoReducer);
         // color some markers for testing
         if (((coordRef.latitude < 38.53767461399 + epsilon &&
@@ -149,7 +150,6 @@ void generateBuildingsTHREAD(OccView *myOccView) {
               Quantity_Color(0, 1, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         } else {
             // need API call for electricity data, but same concept
-            float r = (float) rand()/RAND_MAX;
           anAisReducer->SetColor(
               Quantity_Color(r, 0, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         }
