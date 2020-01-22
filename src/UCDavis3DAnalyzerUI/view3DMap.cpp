@@ -31,7 +31,8 @@ void generateMap(OccView *myOccView) {
   // myOccView->getContext()->Display(anAisBox, Standard_True);
   // textured shape
   Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
-  TCollection_AsciiString aFile("../ucdavis-3D-analyzer/resources/map_model/map/davis.png");
+  TCollection_AsciiString aFile(
+      "../ucdavis-3D-analyzer/resources/map_model/map/davis.png");
   aTShape->SetTextureFileName(aFile);
   aTShape->SetTextureMapOn();
   // int nRepeat = 1;
@@ -56,26 +57,93 @@ void generateBuildings(OccView *myOccView) {
   generateBuildingsTHREAD(myOccView);
 }
 
+void exportDataserversPoints(QMainWindow *mainWindow) {
+  QString fileName =
+      QFileDialog::getSaveFileName(mainWindow, QObject::tr("Save JSON"), "",
+                                   QObject::tr("JSON (*.json);;All Files (*)"));
+  std::string outputFileString = fileName.toStdString();
+  rapidjson::Document pointsJSON_Doc = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/dataservers/"
+      "F1DS9KoOKByvc0-uxyvoTV1UfQVVRJTC1QSS1Q/points");
+  std::ofstream ofs(outputFileString.c_str());
+  if (!ofs.is_open()) {
+    printf("ERROR: output file not found: %s\n", outputFileString.c_str());
+    return;
+  }
+  // write file
+  rapidjson::OStreamWrapper osw{ofs};
+  rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer2{osw};
+  pointsJSON_Doc.Accept(writer2);
+}
+
+void unusedApiCalls() {
+  // buildings with wifi data
+  rapidjson::Document buildingsWithWifi = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/elements/"
+      "F1EmbgZy4oKQ9kiBiZJTW7eugwMLOlxFHu5hGUtUhRt5d2AAVVRJTC1BRlxBQ0VcVUMgREFW"
+      "SVNcSUNTIEJVSUxESU5HUw/elements");
+
+  // Click this link for an example response that shows the CAAN Value
+  rapidjson::Document buildingCAAN = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/attributes/"
+      "F1AbEbgZy4oKQ9kiBiZJTW7eugwSTpv31Hu5hGUtUhRt5d2AAs4vVphFyDFs7-"
+      "r25Y3ZvRQVVRJTC1BRlxBQ0VcVUMgREFWSVNcSUNTIEJVSUxESU5HU1xBQ0FEfEFTU0VUIE5"
+      "VTUJFUg/value");
+
+  // This is a URL that gives the link that will let you find the CAAN for the
+  // building named “ACAD”
+  rapidjson::Document findBuildingCAAN = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
+      "attributes?path=%20\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
+      "20Buildings\\ACAD|Asset%20Number");
+
+  /*
+   * To get the interpolated data for a WiFI reading for a specific building,
+   * first contact itsattribute path and get the WebID, e.g for building “ACAD”,
+   * go to this URL:
+   */
+  rapidjson::Document buildingWIFIinterpolated = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
+      "attributes?path=\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
+      "20Buildings\\ACAD|WIFI%20Occupants");
+
+  /*
+   * Use this Web ID along with Interpolated Data method of the Streams
+   * controller, e.g.:
+   */
+  rapidjson::Document streamController = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/streams/"
+      "F1AbEbgZy4oKQ9kiBiZJTW7eugwSTpv31Hu5hGUtUhRt5d2AAfUAWf7mHRFMQvB3Pt0VKPgV"
+      "VRJTC1BRlxBQ0VcVUMgREFWSVNcSUNTIEJVSUxESU5HU1xBQ0FEfFdJRkkgT0NDVVBBTlRT/"
+      "interpolated");
+
+  /*
+   * You should pass in parameters for the start and end times of interests and
+   * the desired interpolation interval, e.g. to get 1 hour of data for the year
+   * of 2017:
+   */
+  rapidjson::Document interpolatedTimeInterval = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/streams/"
+      "F1AbEbgZy4oKQ9kiBiZJTW7eugwSTpv31Hu5hGUtUhRt5d2AAfUAWf7mHRFMQvB3Pt0VKPgV"
+      "VRJTC1BRlxBQ0VcVUMgREFWSVNcSUNTIEJVSUxESU5HU1xBQ0FEfFdJRkkgT0NDVVBBTlRT/"
+      "interpolated?starttime=2017&endtime=2018&interval=1h");
+
+  rapidjson::Document kwh_cost = UCD3DA::HTTPS_GET_JSON(
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
+      "F1BlbgZy4oKQ9kiBiZJTW7eugwEttoGWANRE-ROARQB_"
+      "54AgVVRJTC1BRlxVVElMSVRJRVNcVEFCTEVTW0tXSCBBTkQgVEhFUk0gQ09TVFNd/data");
+}
+
 void generateBuildingsTHREAD(OccView *myOccView) {
   rapidjson::Document buildingInfo_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwJhSOEaMUUUyOuVv2CDalxgVVRJTC1BRlxBQ0VcVEFCTEVT"
       "W0JVSUxESU5HX0RBVEFd/data");
   rapidjson::Document CAAN_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
-      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edus/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwaKgvLoXhX0GjDFptjwvTcQVVRJTC1BRlxDRUZTXFRBQkxF"
       "U1tMQVRfTE9OR19EQVRBXQ/data");
-  /*std::ofstream ofs("test.json");
-  if ( !ofs.is_open() )
-      {
-     printf("ERROR: output file not found: %s\n","test.json");
-        return ;
-      }
 
-       rapidjson::OStreamWrapper osw { ofs };
-       rapidjson::PrettyWriter< rapidjson::OStreamWrapper> writer2 { osw };
-      buildingInfo_JSON_Doc.Accept( writer2 );
-      */
   std::unordered_map<std::string, coord> CAAN_table;
   CAAN_table.reserve(20000);
   if (CAAN_JSON_Doc.IsObject()) {
@@ -131,9 +199,9 @@ void generateBuildingsTHREAD(OccView *myOccView) {
           lon_transform > -2000 && lon_transform < 2000) {
         gp_Ax2 anAxis;
         anAxis.SetLocation(gp_Pnt(lat_transform, lon_transform, -8.0));
-        float r = (float) rand()/RAND_MAX;
+        float r = (float)rand() / RAND_MAX;
         TopoDS_Shape aTopoReducer =
-            BRepPrimAPI_MakeCone(anAxis, 3.0, 2.0, r*20).Shape();
+            BRepPrimAPI_MakeCone(anAxis, 3.0, 2.0, r * 20).Shape();
         Handle(AIS_Shape) anAisReducer = new AIS_Shape(aTopoReducer);
         // color some markers for testing
         if (((coordRef.latitude < 38.53767461399 + epsilon &&
@@ -149,7 +217,7 @@ void generateBuildingsTHREAD(OccView *myOccView) {
           anAisReducer->SetColor(
               Quantity_Color(0, 1, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         } else {
-            // need API call for electricity data, but same concept
+          // need API call for electricity data, but same concept
           anAisReducer->SetColor(
               Quantity_Color(r, 0, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
         }

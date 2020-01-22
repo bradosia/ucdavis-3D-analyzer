@@ -146,6 +146,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QOpenGLContext>
+#include <QOpenGLFunctions>
 #include <QOpenGLWidget>
 #include <QRubberBand>
 #include <QString>
@@ -153,6 +154,7 @@
 #include <QTreeView>
 #include <QMouseEvent>
 #include <QStyleFactory>
+#include <QTranslator>
 
 /*
  * 3D View

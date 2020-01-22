@@ -36,6 +36,8 @@ public:
 
 void generateMap(OccView *myOccView);
 void generateBuildings(OccView *myOccView);
+void exportDataserversPoints(QMainWindow *mainWindow);
+void unusedApiCalls();
 void generateBuildingsTHREAD(OccView *myOccView);
 
 } // namespace UCD3DA

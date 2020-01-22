@@ -59,6 +59,7 @@ public:
 public:
   //! constructor.
   OccView(QWidget *parent);
+  ~OccView();
 
   const Handle(AIS_InteractiveContext) & getContext() const;
 
@@ -75,6 +76,8 @@ public slots:
   void rotate(void);
 
 protected:
+  void initializeGL();
+
   // Paint events.
   virtual void paintEvent(QPaintEvent *theEvent);
   virtual void resizeEvent(QResizeEvent *theEvent);

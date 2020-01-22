@@ -39,6 +39,17 @@ OccView::OccView(QWidget *parent)
   // mOpenGLContext->create();
 }
 
+OccView::~OccView() {
+  // myViewer->Remove();
+}
+
+void OccView::initializeGL() {
+  // Set up the rendering context, load shaders and other resources, etc.:
+  QOpenGLContext *hi = this->context();
+  QOpenGLFunctions *f = hi->functions();
+  f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
 void OccView::init() {
   // Create Aspect_DisplayConnection
   Handle(Aspect_DisplayConnection) aDisplayConnection =
@@ -254,9 +265,9 @@ void OccView::onMouseMove(const int theFlags, const QPoint thePoint) {
     default:
       break;
     }
-    // drawRubberBand(myXmin, myYmin, thePoint.x(), thePoint.y());
+    drawRubberBand(myXmin, myYmin, thePoint.x(), thePoint.y());
 
-    // dragEvent(thePoint.x(), thePoint.y());
+    dragEvent(thePoint.x(), thePoint.y());
   }
 
   // Ctrl for multi selection.
@@ -346,8 +357,8 @@ void OccView::drawRubberBand(const int minX, const int minY, const int maxX,
     myRectBand->setStyle(QStyleFactory::create("windows"));
   }
 
-  myRectBand->setGeometry(aRect);
-  myRectBand->show();
+  // myRectBand->setGeometry(aRect);
+  // myRectBand->show();
 }
 
 void OccView::panByMiddleButton(const QPoint &thePoint) {

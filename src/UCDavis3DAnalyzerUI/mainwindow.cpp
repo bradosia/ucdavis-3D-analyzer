@@ -28,7 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
   setCentralWidget(myOccView);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+  delete myOccView;
+  delete ui;
+}
 
 void MainWindow::on_actionOpen_triggered() {
   std::string inputFileString, exportSTEP_NameString;
@@ -584,7 +587,10 @@ void MainWindow::on_actionPlace_Buildings_triggered() {
   UCD3DA::generateBuildings(myOccView);
 }
 
-void MainWindow::on_actionEnergyUsage_triggered()
-{
-    UCD3DA::generateBuildings(myOccView);
+void MainWindow::on_actionEnergyUsage_triggered() {
+  UCD3DA::generateBuildings(myOccView);
+}
+
+void MainWindow::on_actionData_Server_Points_triggered() {
+  UCD3DA::exportDataserversPoints(this);
 }

@@ -109,6 +109,8 @@ private slots:
 
   void on_actionEnergyUsage_triggered();
 
+  void on_actionData_Server_Points_triggered();
+
 private:
   // Ui::MainWindow *ui;
   Ui::occQtClass *ui;

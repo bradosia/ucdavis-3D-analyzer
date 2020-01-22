@@ -62,8 +62,15 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuDebug">
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <addaction name="actionData_Server_Points"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuDebug"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -294,6 +301,11 @@
    </property>
    <property name="toolTip">
     <string>Real Time Energy Usage</string>
+   </property>
+  </action>
+  <action name="actionData_Server_Points">
+   <property name="text">
+    <string>Data Server Points</string>
    </property>
   </action>
  </widget>
