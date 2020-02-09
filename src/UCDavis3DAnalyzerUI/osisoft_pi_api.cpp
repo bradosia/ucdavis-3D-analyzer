@@ -76,7 +76,6 @@ rapidjson::Document HTTPS_GET_JSON(std::string URI) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &bufferString);
     /* Perform the request, res will get the return code */
-
     res = curl_easy_perform(curl);
     resJSON_Doc.Parse(bufferString.c_str());
 
@@ -87,7 +86,6 @@ rapidjson::Document HTTPS_GET_JSON(std::string URI) {
 #ifdef DEBUG_JSON
     std::cout << bufferString << std::endl;
 #endif
-
     /* always cleanup */
     curl_easy_cleanup(curl);
   }

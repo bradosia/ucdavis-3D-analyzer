@@ -15,5 +15,5 @@
  * Icons and images owned by their respective owners
  */
 #define SETTINGS_FILE "protein-knot-settings.json"
-//#define DEBUG_JSON
+#define DEBUG_JSON
 //#define DEBUG_3D_GENERATION

@@ -53,8 +53,9 @@ void generateMap(OccView *myOccView) {
 }
 void generateBuildings(OccView *myOccView) {
   // crashes, no time to debug
-  // std::thread thread(generateBuildingsTHREAD, myOccView);
-  generateBuildingsTHREAD(myOccView);
+  std::thread thread(generateBuildingsTHREAD, myOccView);
+  thread.join();
+  //generateBuildingsTHREAD(myOccView);
 }
 
 void exportDataserversPoints(QMainWindow *mainWindow) {
@@ -140,7 +141,7 @@ void generateBuildingsTHREAD(OccView *myOccView) {
       "F1BlbgZy4oKQ9kiBiZJTW7eugwJhSOEaMUUUyOuVv2CDalxgVVRJTC1BRlxBQ0VcVEFCTEVT"
       "W0JVSUxESU5HX0RBVEFd/data");
   rapidjson::Document CAAN_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
-      "https://ucd-pi-iis.ou.ad3.ucdavis.edus/piwebapi/tables/"
+      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwaKgvLoXhX0GjDFptjwvTcQVVRJTC1BRlxDRUZTXFRBQkxF"
       "U1tMQVRfTE9OR19EQVRBXQ/data");
 

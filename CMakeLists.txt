@@ -66,8 +66,6 @@ endif()
 
     src/UCDavis3DAnalyzerUI/amalgamated.cpp
     src/UCDavis3DAnalyzerUI/occView.cpp
-    src/UCDavis3DAnalyzerUI/aconf2.h
-    src/UCDavis3DAnalyzerUI/aconf.h
 
     src/UCDavis3DAnalyzerUI/mainwindow.h
     include/UCDavis3DAnalyzer/amalgamated.h
