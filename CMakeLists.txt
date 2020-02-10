@@ -1,183 +1,202 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.1)
 
-project(ucdavis-3D-analyzer LANGUAGES CXX)
+project(ucdavis-3D-electricity-map VERSION 1.0.0 LANGUAGES CXX)
+set(EXENAME ucdavis-3D-electricity-map)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Configurable Options
+set(BUILD_SHARED_LIBS ON)
+set(BUILD_STATIC_LIBS ON)
 
+# Automatically compile .ui to .h
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(EXENAME ucdavis-3D-analyzer)
+set(QTDIR $ENV{QTDIR})
+set(OGRE_HOME $ENV{OGRE_HOME})
+set(ASSIMP_DIR $ENV{ASSIMP_DIR})
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+set(CMAKE_PREFIX_PATH ${QTDIR} ${OGRE_HOME} ${ASSIMP_DIR})
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${OGRE_HOME}/CMake/)
 
-# configure compiler
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED on)
-# generate proper GUI program on specified platform
-if(WIN32) # Check if we are on Windows
-        if(MINGW)
-            # COMPILER-SETTINGS FOR MINGW
-            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -std=gnu++17")
-            # SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
-        elseif(MSVC) # Check if we are using the Visual Studio compiler
-            set_target_properties(${PROJECT_NAME} PROPERTIES
-                WIN32_EXECUTABLE YES
-                LINK_FLAGS "/ENTRY:mainCRTStartup"
-            )
-            # COMPILER-SETTINGS FOR MS VISUAL C++
-            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-            # To fix error: C2338: va_start argument must not
-            # have reference type and must not be parenthesized
-            add_definitions(/D_CRT_NO_VA_START_VALIDATION)
-            add_definitions(/DNOMINMAX)
-        else()
-            message(SEND_ERROR "You are using an unsupported Windows compiler! (Not MSVC or GCC)")
-        endif(MSVC)
-elseif(APPLE)
-        set_target_properties(${PROJECT_NAME} PROPERTIES
-                        MACOSX_BUNDLE YES
-        )
-elseif(UNIX)
-        # Nothing special required
-else()
-        message(SEND_ERROR "You are on an unsupported platform! (Not Win32, Mac OS X or Unix)")
-endif(WIN32)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
 
+find_package(Qt5Widgets REQUIRED)
+find_package(OGRE REQUIRED)
+find_package(assimp REQUIRED)
+find_package(OpenGL REQUIRED)
 
-if(MINGW)
-  # COMPILER-SETTINGS FOR MINGW
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
-elseif(MSVC)
-  # COMPILER-SETTINGS FOR MS VISUAL C++
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-  # To fix error: C2338: va_start argument must not
-  # have reference type and must not be parenthesized
-  add_definitions(/D_CRT_NO_VA_START_VALIDATION)
-  add_definitions(/DNOMINMAX)
+if(${OGRE_STATIC})
+  find_package(zlib REQUIRED)
+  find_package(freetype REQUIRED)
+  find_package(ZZip REQUIRED)
 endif()
 
- add_executable(${EXENAME}
-    src/UCDavis3DAnalyzerUI/main.cpp
-    src/UCDavis3DAnalyzerUI/mainwindow.cpp
-    src/UCDavis3DAnalyzerUI/osisoft_pi_api.cpp
-    src/UCDavis3DAnalyzerUI/view3DMap.cpp
+if(${OGRE_STATIC})
+  add_definitions(-DOGRE_STATIC)
+endif()
 
-    src/UCDavis3DAnalyzerUI/amalgamated.cpp
-    src/UCDavis3DAnalyzerUI/occView.cpp
+include_directories(
+  third_party
+  third_party/OCCT
+  third_party/hjson/include
 
-    src/UCDavis3DAnalyzerUI/mainwindow.h
-    include/UCDavis3DAnalyzer/amalgamated.h
-    include/UCDavis3DAnalyzer/occView.h
-    include/UCDavis3DAnalyzer/config.h
-    include/UCDavis3DAnalyzer/osisoft_pi_api.h
-    include/UCDavis3DAnalyzer/view3DMap.h
+  "${PROJECT_SOURCE_DIR}/src"
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+)
 
-    src/UCDavis3DAnalyzerUI/occQt.ui
-    resources/occqt.qrc
-    resources/icons_utility.qrc
- )
+link_directories(${OGRE_LIBRARY_DIRS})
+link_directories(${OGRE_PLUGIN_DIR})
+link_directories(${ASSIMP_LIBRARY_DIRS})
+
+# cmake hjson
+add_subdirectory(third_party/hjson ${CMAKE_BINARY_DIR}/hjson)
+add_subdirectory(src/plugins)
+
+set(SOURCES ${SOURCES}
+  src/UI/main.cpp
+  src/UI/Application.cpp
+  src/UI/MainWindow.cpp
+
+  src/UI/Application.hpp
+  src/UI/MainWindow.hpp
+  src/UI/universalInclude.hpp
+  src/core/config.hpp
+)
+
+set(RESOURCES ${RESOURCES}
+  src/UI/main.ui
+  resources/occqt.qrc
+  resources/icons_utility.qrc
+)
+
+add_executable(${EXENAME} ${SOURCES} ${RESOURCES})
 
 target_link_directories(${EXENAME} PRIVATE
 lib)
 
 target_link_libraries(${EXENAME} PRIVATE
-# QT5
-Qt5::Widgets
+  # QT5
+  Qt5::Widgets
 
-# 3D openCascade
-TKSTEP
-TKSTEPAttr
-TKSTEP209
-TKSTEPBase
-TKXSBase
-TKXCAF
-TKOpenGl
-TKV3d
-TKService
-TKCAF
-TKOffset
-TKFillet
-TKBool
-TKBO
-TKShHealing
-TKVCAF
-TKMesh
-TKHLR
-TKPrim
-TKTopAlgo
-TKGeomAlgo
-TKBRep
-TKGeomBase
-TKG3d
-TKG2d
-TKLCAF
-TKCDF
-TKernel
-TKMath
+  # 3D openCascade
+  TKSTEP
+  TKSTEPAttr
+  TKSTEP209
+  TKSTEPBase
+  TKXSBase
+  TKXCAF
+  TKOpenGl
+  TKV3d
+  TKService
+  TKCAF
+  TKOffset
+  TKFillet
+  TKBool
+  TKBO
+  TKShHealing
+  TKVCAF
+  TKMesh
+  TKHLR
+  TKPrim
+  TKTopAlgo
+  TKGeomAlgo
+  TKBRep
+  TKGeomBase
+  TKG3d
+  TKG2d
+  TKLCAF
+  TKCDF
+  TKernel
+  TKMath
 
-# freetype
-freetype
-harfbuzz
-gio-2.0
-glib-2.0
-intl
-graphite2
-libpng
-bz2
+  # freetype
+  freetype
+  harfbuzz
+  gio-2.0
+  glib-2.0
+  intl
+  graphite2
+  libpng
+  bz2
 
-# curl
-curl
-nghttp2
-psl.dll
-idn2
-gnutls
-ssl
-crypto
-cares
-ssh2
-brotlidec-static
-brotlienc-static
-brotlicommon-static
-unistring
-wldap32
-libz
-bcrypt
-crypt32
+  # curl
+  curl
+  nghttp2
+  psl.dll
+  idn2
+  gnutls
+  ssl
+  crypto
+  cares
+  ssh2
+  brotlidec-static
+  brotlienc-static
+  brotlicommon-static
+  unistring
+  wldap32
+  libz
+  bcrypt
+  crypt32
 
-# static link a bunch of stuff
-windowscodecs
-stdc++
-gcc
-opengl32
-glu32
-gdi32
-comdlg32
-oleaut32
-imm32
-winmm
-winspool
-kernel32
-user32
-shell32
-uuid
-ole32
-advapi32
-ws2_32
-mingw32
-rpcrt4
-tiff
-# std::filesystem
-stdc++fs
+  # HJSON for loading settings files
+  hjson
+
+  # static link a bunch of stuff
+  windowscodecs
+  stdc++
+  gcc
+  opengl32
+  glu32
+  gdi32
+  comdlg32
+  oleaut32
+  imm32
+  winmm
+  winspool
+  kernel32
+  user32
+  shell32
+  uuid
+  ole32
+  advapi32
+  ws2_32
+  mingw32
+  rpcrt4
+  tiff
+  # std::filesystem
+  stdc++fs
+
+  ${OPENGL_LIBRARY}
+
+  UCD_OSI_DataLib
+  MapViewerOCCLib
+  UCD3DEM_ManagerLib
 )
 
 target_include_directories(${EXENAME} PRIVATE
-include
-third_party
-third_party/OCCT
-third_party/aconf
+  third_party
+  third_party/OCCT
+  third_party/hjson/include
 )
 
-# Installation
-install(TARGETS ${EXENAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+if(APPLE)
+  find_library(COCOA_FRAMEWORK Cocoa)
+  target_link_libraries(${EXENAME} ${COCOA_FRAMEWORK})
+endif()
+
+if(WIN32)
+  set_target_properties(${EXENAME} PROPERTIES
+    WIN32 TRUE
+  )
+elseif(APPLE)
+  set_target_properties(${EXENAME} PROPERTIES
+    MACOSX_BUNDLE TRUE
+    RESOURCE "${RESOURCES}"
+  )
+endif()

@@ -1,0 +1,43 @@
+language: cpp
+jobs:
+  include:
+    - os: linux
+      dist: trusty
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+        - CC=gcc-4.9
+        - CXX=g++-4.9
+        - BUILD_TYPE=Debug
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      env:
+        - BUILD_TYPE=Release
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      before_install:
+        - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        - sudo apt-get -q update
+        - sudo apt-get -y install g++-9
+      env:
+        - CC=gcc-9
+        - CXX=g++-9
+        - BUILD_TYPE=Debug
+    - os: osx
+      compiler: clang
+      env:
+        - BUILD_TYPE=Debug
+    - os: windows
+      env:
+        - GENERATOR="Visual Studio 15 2017 Win64"
+        - ARTIFACT=vs2017-64bit
+        - BUILD_TYPE=Debug
+script:
+  - mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DHJSON_ENABLE_TEST=ON .. && cmake --build . --target runtest
