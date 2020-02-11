@@ -76,6 +76,9 @@ public slots:
   void rotate(void);
 
 protected:
+  // Callbacks
+  void setInitCallback(std::function<void(void)> cb_);
+
   // Paint events.
   virtual void paintEvent(QPaintEvent *theEvent);
   virtual void resizeEvent(QResizeEvent *theEvent);
@@ -114,6 +117,9 @@ protected:
   void panByMiddleButton(const QPoint &thePoint);
 
 private:
+  // Callbacks
+  std::function<void(void)> initCallback;
+
   //! the occ viewer.
   Handle(V3d_Viewer) myViewer;
 

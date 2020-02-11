@@ -20,6 +20,7 @@
 // c++17
 #include <algorithm> // std::find
 #include <filesystem>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <sstream>
