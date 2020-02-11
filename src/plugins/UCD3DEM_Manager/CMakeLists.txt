@@ -26,11 +26,158 @@ set(STATIC_COMPILE_DEFINITIONS
 )
 
 set(SHARED_LINK_LIBRARIES
-  Qt5::Widgets
+    # QT5
+    Qt5::Widgets
+
+    # 3D openCascade
+    TKSTEP
+    TKSTEPAttr
+    TKSTEP209
+    TKSTEPBase
+    TKXSBase
+    TKXCAF
+    TKOpenGl
+    TKV3d
+    TKService
+    TKCAF
+    TKOffset
+    TKFillet
+    TKBool
+    TKBO
+    TKShHealing
+    TKVCAF
+    TKMesh
+    TKHLR
+    TKPrim
+    TKTopAlgo
+    TKGeomAlgo
+    TKBRep
+    TKGeomBase
+    TKG3d
+    TKG2d
+    TKLCAF
+    TKCDF
+    TKernel
+    TKMath
+
+    # freetype
+    freetype
+    harfbuzz
+    gio-2.0
+    glib-2.0
+    intl
+    graphite2
+    libpng
+    bz2
+
+    # HJSON for loading settings files
+    hjson
+
+    # flatbuffers
+    flatbuffers
+
+    # static link a bunch of stuff
+    windowscodecs
+    stdc++
+    gcc
+    opengl32
+    glu32
+    gdi32
+    comdlg32
+    oleaut32
+    imm32
+    winmm
+    winspool
+    kernel32
+    user32
+    shell32
+    uuid
+    ole32
+    advapi32
+    ws2_32
+    mingw32
+    rpcrt4
+    tiff
+    # std::filesystem
+    stdc++fs
 )
 
 set(STATIC_LINK_LIBRARIES
+  # QT5
   Qt5::Widgets
+
+  # 3D openCascade
+  TKSTEP
+  TKSTEPAttr
+  TKSTEP209
+  TKSTEPBase
+  TKXSBase
+  TKXCAF
+  TKOpenGl
+  TKV3d
+  TKService
+  TKCAF
+  TKOffset
+  TKFillet
+  TKBool
+  TKBO
+  TKShHealing
+  TKVCAF
+  TKMesh
+  TKHLR
+  TKPrim
+  TKTopAlgo
+  TKGeomAlgo
+  TKBRep
+  TKGeomBase
+  TKG3d
+  TKG2d
+  TKLCAF
+  TKCDF
+  TKernel
+  TKMath
+
+  # freetype
+  freetype
+  harfbuzz
+  gio-2.0
+  glib-2.0
+  intl
+  graphite2
+  libpng
+  bz2
+
+  # flatbuffers
+  flatbuffers
+
+  # static link a bunch of stuff
+  z
+  windowscodecs
+  stdc++
+  gcc
+  opengl32
+  glu32
+  gdi32
+  comdlg32
+  oleaut32
+  imm32
+  winmm
+  winspool
+  kernel32
+  user32
+  shell32
+  uuid
+  ole32
+  advapi32
+  ws2_32
+  mingw32
+  rpcrt4
+  tiff
+  # std::filesystem
+  stdc++fs
+
+  UCD_OSI_DataLib
+  MapViewerOCCLib
 )
 
 # Set up library names
@@ -86,7 +233,7 @@ if(BUILD_STATIC_LIBS)
   COMPATIBILITY AnyNewerVersion )
 
   # Compile Definitions
-  target_compile_definitions(${libsh_name} PUBLIC ${STATIC_COMPILE_DEFINITIONS})
+  target_compile_definitions(${lib_name} PUBLIC ${STATIC_COMPILE_DEFINITIONS})
   # Libraries to link
   target_link_libraries(${lib_name} PUBLIC ${STATIC_LINK_LIBRARIES})
 endif()

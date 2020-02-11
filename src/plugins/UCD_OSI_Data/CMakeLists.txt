@@ -25,11 +25,80 @@ set(STATIC_COMPILE_DEFINITIONS
 
 set(SHARED_LINK_LIBRARIES
   Qt5::Widgets
+
+  # curl
+  curl
+  nghttp2
+  psl.dll
+  idn2
+  gnutls
+  ssl
+  crypto
+  cares
+  ssh2
+  brotlidec-static
+  brotlienc-static
+  brotlicommon-static
+  unistring
+  wldap32
+  libz
+  bcrypt
+  crypt32
+
+  # std::filesystem
+  stdc++fs
 )
 
 set(STATIC_LINK_LIBRARIES
   Qt5::Widgets
+
+  # curl
+  curl
+  nghttp2
+  psl.dll
+  idn2
+  gnutls
+  ssl
+  crypto
+  cares
+  ssh2
+  brotlidec-static
+  brotlienc-static
+  brotlicommon-static
+  unistring
+  wldap32
+  libz
+  bcrypt
+  crypt32
+
+  # static link a bunch of stuff
+  z
+  windowscodecs
+  stdc++
+  gcc
+  opengl32
+  glu32
+  gdi32
+  comdlg32
+  oleaut32
+  imm32
+  winmm
+  winspool
+  kernel32
+  user32
+  shell32
+  uuid
+  ole32
+  advapi32
+  ws2_32
+  mingw32
+  rpcrt4
+  tiff
+  # std::filesystem
+  stdc++fs
 )
+
+set(CMAKE_CXX_STANDARD 17)
 
 # Set up library names
 if(BUILD_SHARED_LIBS)
@@ -84,7 +153,7 @@ if(BUILD_STATIC_LIBS)
   COMPATIBILITY AnyNewerVersion )
 
   # Compile Definitions
-  target_compile_definitions(${libsh_name} PUBLIC ${STATIC_COMPILE_DEFINITIONS})
+  target_compile_definitions(${lib_name} PUBLIC ${STATIC_COMPILE_DEFINITIONS})
   # Libraries to link
   target_link_libraries(${lib_name} PUBLIC ${STATIC_LINK_LIBRARIES})
 endif()

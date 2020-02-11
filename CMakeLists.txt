@@ -4,7 +4,7 @@ project(ucdavis-3D-electricity-map VERSION 1.0.0 LANGUAGES CXX)
 set(EXENAME ucdavis-3D-electricity-map)
 
 # Configurable Options
-set(BUILD_SHARED_LIBS ON)
+set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
 
 # Automatically compile .ui to .h
@@ -14,10 +14,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(QTDIR $ENV{QTDIR})
-set(OGRE_HOME $ENV{OGRE_HOME})
-set(ASSIMP_DIR $ENV{ASSIMP_DIR})
 
-set(CMAKE_PREFIX_PATH ${QTDIR} ${OGRE_HOME} ${ASSIMP_DIR})
+set(CMAKE_PREFIX_PATH ${QTDIR})
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules ${OGRE_HOME}/CMake/)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -26,19 +24,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.10")
 
 find_package(Qt5Widgets REQUIRED)
-find_package(OGRE REQUIRED)
-find_package(assimp REQUIRED)
-find_package(OpenGL REQUIRED)
-
-if(${OGRE_STATIC})
-  find_package(zlib REQUIRED)
-  find_package(freetype REQUIRED)
-  find_package(ZZip REQUIRED)
-endif()
-
-if(${OGRE_STATIC})
-  add_definitions(-DOGRE_STATIC)
-endif()
 
 include_directories(
   third_party
@@ -50,9 +35,10 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-link_directories(${OGRE_LIBRARY_DIRS})
-link_directories(${OGRE_PLUGIN_DIR})
-link_directories(${ASSIMP_LIBRARY_DIRS})
+link_directories(
+   ${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
+
 
 # cmake hjson
 add_subdirectory(third_party/hjson ${CMAKE_BINARY_DIR}/hjson)
@@ -76,9 +62,6 @@ set(RESOURCES ${RESOURCES}
 )
 
 add_executable(${EXENAME} ${SOURCES} ${RESOURCES})
-
-target_link_directories(${EXENAME} PRIVATE
-lib)
 
 target_link_libraries(${EXENAME} PRIVATE
   # QT5
@@ -125,29 +108,14 @@ target_link_libraries(${EXENAME} PRIVATE
   libpng
   bz2
 
-  # curl
-  curl
-  nghttp2
-  psl.dll
-  idn2
-  gnutls
-  ssl
-  crypto
-  cares
-  ssh2
-  brotlidec-static
-  brotlienc-static
-  brotlicommon-static
-  unistring
-  wldap32
-  libz
-  bcrypt
-  crypt32
-
   # HJSON for loading settings files
   hjson
 
+  # flatbuffers
+  flatbuffers
+
   # static link a bunch of stuff
+  z
   windowscodecs
   stdc++
   gcc
@@ -171,8 +139,6 @@ target_link_libraries(${EXENAME} PRIVATE
   tiff
   # std::filesystem
   stdc++fs
-
-  ${OPENGL_LIBRARY}
 
   UCD_OSI_DataLib
   MapViewerOCCLib

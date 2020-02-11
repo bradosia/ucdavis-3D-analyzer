@@ -39,6 +39,12 @@
 #include <stdlib.h> /* srand, rand */
 #include <string.h>
 
+
+/* Flatbuffers 1.11.0-2
+ * License: Apache License 2.0
+ */
+#include <flatbuffers/flatbuffers.h>
+
 /* hjson-cpp 1.4
  * License: MIT
  */
@@ -67,6 +73,15 @@
 #include <QObject>
 
 /* Plugins
+ * 2020-02-10: Plugins must be compiled with the same compiler as
+ * the main application because there isn't a solution for
+ * using a widget using only Plain Old Data (POD) Objects
+ * with the shared library plugin to allow any compiler to
+ * make a shared library plugin that has binary compatability
+ * with the main application.
+ * In the chance there may be some solution, plugins should
+ * attempt to minimize passing non Plain Old Data (POD) Objects
+ * directly and should communicate with flatbuffers
  */
 #include <plugins/MapViewerOCC/MainWidget.hpp>
 #include <plugins/UCD3DEM_Manager/MainWidget.hpp>

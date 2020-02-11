@@ -76,8 +76,6 @@ public slots:
   void rotate(void);
 
 protected:
-  void initializeGL();
-
   // Paint events.
   virtual void paintEvent(QPaintEvent *theEvent);
   virtual void resizeEvent(QResizeEvent *theEvent);

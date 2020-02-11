@@ -43,25 +43,40 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     QHBoxLayout *layout = widgetCentralWidgetList.at(0);
     layout->addWidget(MapViewerOCC_Widget.get());
   }
+
+  // initialize the map
+  // UCD3DEM_ManagerWidget->init();
 }
 
 void MainWindow::on_actionOpen_triggered() {}
 
-void MainWindow::on_actionAbout_triggered() {}
+void MainWindow::on_actionAbout_triggered() {
+  UCD3DEM_ManagerWidget->on_actionAbout_triggered();
+}
 
 void MainWindow::on_actionHelix_triggered() {}
 
 void MainWindow::on_actionSphere_triggered() {}
 
-void MainWindow::on_actionZoom_triggered() {}
+void MainWindow::on_actionZoom_triggered() {
+  UCD3DEM_ManagerWidget->on_actionZoom_triggered();
+}
 
-void MainWindow::on_actionPan_triggered() {}
+void MainWindow::on_actionPan_triggered() {
+  UCD3DEM_ManagerWidget->on_actionPan_triggered();
+}
 
-void MainWindow::on_actionRotate_triggered() {}
+void MainWindow::on_actionRotate_triggered() {
+  UCD3DEM_ManagerWidget->on_actionRotate_triggered();
+}
 
-void MainWindow::on_actionReset_triggered() {}
+void MainWindow::on_actionReset_triggered() {
+  UCD3DEM_ManagerWidget->on_actionReset_triggered();
+}
 
-void MainWindow::on_actionFitAll_triggered() {}
+void MainWindow::on_actionFitAll_triggered() {
+  UCD3DEM_ManagerWidget->on_actionFitAll_triggered();
+}
 
 void MainWindow::on_actionBox_triggered() {}
 
@@ -89,7 +104,9 @@ void MainWindow::on_actionExtrude_triggered() {}
 
 void MainWindow::on_actionSelect_triggered() {}
 
-void MainWindow::on_actionPlace_Buildings_triggered() {}
+void MainWindow::on_actionPlace_Buildings_triggered() {
+  UCD3DEM_ManagerWidget->on_actionPlace_Buildings_triggered();
+}
 
 void MainWindow::on_actionEnergyUsage_triggered() {}
 

@@ -27,8 +27,8 @@ static Handle(Graphic3d_GraphicDriver) & GetGraphicDriver() {
  */
 namespace UCD3DEM {
 
-OccView::OccView(QWidget *parent)
-    : QOpenGLWidget(parent), myXmin(0), myYmin(0), myXmax(0), myYmax(0),
+MapViewerOCC::MapViewerOCC(QWidget *parent)
+    : QWidget(parent), myXmin(0), myYmin(0), myXmax(0), myYmax(0),
       myCurrentMode(CurAction3d_DynamicRotation),
       myDegenerateModeIsOn(Standard_True), myRectBand(nullptr) {
   mouseButtonLeftMode = mouse_button_left_select;
@@ -44,18 +44,11 @@ OccView::OccView(QWidget *parent)
   // mOpenGLContext->create();
 }
 
-OccView::~OccView() {
-  // myViewer->Remove();
+MapViewerOCC::~MapViewerOCC() {
+  myViewer->Remove();
 }
 
-void OccView::initializeGL() {
-  // Set up the rendering context, load shaders and other resources, etc.:
-  QOpenGLContext *hi = this->context();
-  QOpenGLFunctions *f = hi->functions();
-  f->glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-}
-
-void OccView::init() {
+void MapViewerOCC::init() {
   // Create Aspect_DisplayConnection
   Handle(Aspect_DisplayConnection) aDisplayConnection =
       new Aspect_DisplayConnection();
@@ -104,16 +97,16 @@ void OccView::init() {
   myContext->SetDisplayMode(AIS_Shaded, Standard_True);
 
   // flip rotation because of weird texture inversion
-  UCD3DA::generateMap(this);
+  // UCD3DA::generateMap(this);
   myView->Rotate(270, 90, 180, 0, 0, 0);
   fitAll();
 }
 
-const Handle(AIS_InteractiveContext) & OccView::getContext() const {
+const Handle(AIS_InteractiveContext) & MapViewerOCC::getContext() const {
   return myContext;
 }
 
-void OccView::paintEvent(QPaintEvent * /*theEvent*/) {
+void MapViewerOCC::paintEvent(QPaintEvent * /*theEvent*/) {
   if (myContext.IsNull()) {
     init();
   }
@@ -121,35 +114,35 @@ void OccView::paintEvent(QPaintEvent * /*theEvent*/) {
   myView->Redraw();
 }
 
-void OccView::resizeEvent(QResizeEvent * /*theEvent*/) {
+void MapViewerOCC::resizeEvent(QResizeEvent * /*theEvent*/) {
   if (!myView.IsNull()) {
     myView->MustBeResized();
   }
 }
 
-void OccView::fitAll(void) {
+void MapViewerOCC::fitAll(void) {
   myView->FitAll();
   myView->ZFitAll();
   myView->Redraw();
 }
 
-void OccView::select(void) { mouseButtonLeftMode = mouse_button_left_select; }
+void MapViewerOCC::select(void) { mouseButtonLeftMode = mouse_button_left_select; }
 
-void OccView::reset(void) { myView->Reset(); }
+void MapViewerOCC::reset(void) { myView->Reset(); }
 
-void OccView::pan(void) {
+void MapViewerOCC::pan(void) {
   myCurrentMode = CurAction3d_DynamicPanning;
   mouseButtonLeftMode = mouse_button_left_pan;
 }
 
-void OccView::zoom(void) { myCurrentMode = CurAction3d_DynamicZooming; }
+void MapViewerOCC::zoom(void) { myCurrentMode = CurAction3d_DynamicZooming; }
 
-void OccView::rotate(void) {
+void MapViewerOCC::rotate(void) {
   myCurrentMode = CurAction3d_DynamicRotation;
   mouseButtonLeftMode = mouse_button_left_rotate;
 }
 
-void OccView::mousePressEvent(QMouseEvent *theEvent) {
+void MapViewerOCC::mousePressEvent(QMouseEvent *theEvent) {
   if (theEvent->button() == Qt::LeftButton) {
     onLButtonDown((theEvent->buttons() | theEvent->modifiers()),
                   theEvent->pos());
@@ -162,7 +155,7 @@ void OccView::mousePressEvent(QMouseEvent *theEvent) {
   }
 }
 
-void OccView::mouseReleaseEvent(QMouseEvent *theEvent) {
+void MapViewerOCC::mouseReleaseEvent(QMouseEvent *theEvent) {
   if (theEvent->button() == Qt::LeftButton) {
     onLButtonUp(theEvent->buttons() | theEvent->modifiers(), theEvent->pos());
   } else if (theEvent->button() == Qt::MidButton) {
@@ -172,15 +165,15 @@ void OccView::mouseReleaseEvent(QMouseEvent *theEvent) {
   }
 }
 
-void OccView::mouseMoveEvent(QMouseEvent *theEvent) {
+void MapViewerOCC::mouseMoveEvent(QMouseEvent *theEvent) {
   onMouseMove(theEvent->buttons(), theEvent->pos());
 }
 
-void OccView::wheelEvent(QWheelEvent *theEvent) {
+void MapViewerOCC::wheelEvent(QWheelEvent *theEvent) {
   onMouseWheel(theEvent->buttons(), theEvent->delta(), theEvent->pos());
 }
 
-void OccView::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) {
+void MapViewerOCC::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   // Save the current mouse coordinate in min.
   myXmin = thePoint.x();
   myYmin = thePoint.y();
@@ -191,7 +184,7 @@ void OccView::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   }
 }
 
-void OccView::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) {
+void MapViewerOCC::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   // Save the current mouse coordinate in min.
   myXmin = thePoint.x();
   myYmin = thePoint.y();
@@ -202,11 +195,11 @@ void OccView::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) {
   }
 }
 
-void OccView::onRButtonDown(const int /*theFlags*/, const QPoint /*thePoint*/) {
+void MapViewerOCC::onRButtonDown(const int /*theFlags*/, const QPoint /*thePoint*/) {
 
 }
 
-void OccView::onMouseWheel(const int /*theFlags*/, const int theDelta,
+void MapViewerOCC::onMouseWheel(const int /*theFlags*/, const int theDelta,
                            const QPoint thePoint) {
   Standard_Integer aFactor = 16;
 
@@ -224,11 +217,11 @@ void OccView::onMouseWheel(const int /*theFlags*/, const int theDelta,
   myView->Zoom(thePoint.x(), thePoint.y(), aX, aY);
 }
 
-void OccView::addItemInPopup(QMenu * /*theMenu*/) {}
+void MapViewerOCC::addItemInPopup(QMenu * /*theMenu*/) {}
 
-void OccView::popup(const int /*x*/, const int /*y*/) {}
+void MapViewerOCC::popup(const int /*x*/, const int /*y*/) {}
 
-void OccView::onLButtonUp(const int theFlags, const QPoint thePoint) {
+void MapViewerOCC::onLButtonUp(const int theFlags, const QPoint thePoint) {
   // Hide the QRubberBand
   if (myRectBand) {
     myRectBand->hide();
@@ -244,17 +237,17 @@ void OccView::onLButtonUp(const int theFlags, const QPoint thePoint) {
   }
 }
 
-void OccView::onMButtonUp(const int /*theFlags*/, const QPoint thePoint) {
+void MapViewerOCC::onMButtonUp(const int /*theFlags*/, const QPoint thePoint) {
   if (thePoint.x() == myXmin && thePoint.y() == myYmin) {
     panByMiddleButton(thePoint);
   }
 }
 
-void OccView::onRButtonUp(const int /*theFlags*/, const QPoint thePoint) {
+void MapViewerOCC::onRButtonUp(const int /*theFlags*/, const QPoint thePoint) {
   popup(thePoint.x(), thePoint.y());
 }
 
-void OccView::onMouseMove(const int theFlags, const QPoint thePoint) {
+void MapViewerOCC::onMouseMove(const int theFlags, const QPoint thePoint) {
   // Draw the rubber band.
   if (theFlags & Qt::LeftButton) {
     switch (mouseButtonLeftMode) {
@@ -305,19 +298,19 @@ void OccView::onMouseMove(const int theFlags, const QPoint thePoint) {
   }
 }
 
-void OccView::dragEvent(const int x, const int y) {
+void MapViewerOCC::dragEvent(const int x, const int y) {
   myContext->Select(myXmin, myYmin, x, y, myView, Standard_True);
 
   emit selectionChanged();
 }
 
-void OccView::multiDragEvent(const int x, const int y) {
+void MapViewerOCC::multiDragEvent(const int x, const int y) {
   myContext->ShiftSelect(myXmin, myYmin, x, y, myView, Standard_True);
 
   emit selectionChanged();
 }
 
-void OccView::inputEvent(const int x, const int y) {
+void MapViewerOCC::inputEvent(const int x, const int y) {
   Q_UNUSED(x);
   Q_UNUSED(y);
 
@@ -326,7 +319,7 @@ void OccView::inputEvent(const int x, const int y) {
   emit selectionChanged();
 }
 
-void OccView::multiInputEvent(const int x, const int y) {
+void MapViewerOCC::multiInputEvent(const int x, const int y) {
   Q_UNUSED(x);
   Q_UNUSED(y);
 
@@ -335,15 +328,15 @@ void OccView::multiInputEvent(const int x, const int y) {
   emit selectionChanged();
 }
 
-void OccView::moveEvent(const int x, const int y) {
+void MapViewerOCC::moveEvent(const int x, const int y) {
   myContext->MoveTo(x, y, myView, Standard_True);
 }
 
-void OccView::multiMoveEvent(const int x, const int y) {
+void MapViewerOCC::multiMoveEvent(const int x, const int y) {
   myContext->MoveTo(x, y, myView, Standard_True);
 }
 
-void OccView::drawRubberBand(const int minX, const int minY, const int maxX,
+void MapViewerOCC::drawRubberBand(const int minX, const int minY, const int maxX,
                              const int maxY) {
   QRect aRect;
 
@@ -362,11 +355,11 @@ void OccView::drawRubberBand(const int minX, const int minY, const int maxX,
     myRectBand->setStyle(QStyleFactory::create("windows"));
   }
 
-  // myRectBand->setGeometry(aRect);
-  // myRectBand->show();
+  myRectBand->setGeometry(aRect);
+  myRectBand->show();
 }
 
-void OccView::panByMiddleButton(const QPoint &thePoint) {
+void MapViewerOCC::panByMiddleButton(const QPoint &thePoint) {
   Standard_Integer aCenterX = 0;
   Standard_Integer aCenterY = 0;
 

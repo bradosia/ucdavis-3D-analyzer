@@ -21,13 +21,13 @@
  */
 namespace UCD3DEM {
 
-void generateMap(OccView *myOccView) {
+void generateMap(std::shared_ptr<MapViewerOCC> myOccView) {
   // create the shape
   TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(1000, 1000, 5.0).Shape();
   Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
   anAisBox->SetColor(Quantity_NOC_AZURE);
 
-  // myOccView->getContext()->Display(anAisBox, Standard_True);
+  // MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
   // textured shape
   Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
   TCollection_AsciiString aFile(
@@ -43,26 +43,26 @@ void generateMap(OccView *myOccView) {
   // aTShape->DisableTextureModulate();
   aTShape->SetDisplayMode(3); // mode 3 is "textured" mode
   aTShape->SetMaterial(Graphic3d_NOM_SILVER);
-  // myOccView->getContext()->SetDisplayMode(aTShape, 3);
-  // myOccView->getContext()->Display(aTShape, 3,-1);
+  // MapViewerOCC_Widget->getContext()->SetDisplayMode(aTShape, 3);
+  // MapViewerOCC_Widget->getContext()->Display(aTShape, 3,-1);
   myOccView->getContext()->Display(aTShape, Standard_True);
-  // myOccView->getContext()->Display(aTShape);
+  // MapViewerOCC_Widget->getContext()->Display(aTShape);
   myOccView->getContext()->UpdateCurrentViewer();
   aTShape->UpdateAttributes();
 }
-void generateBuildings(OccView *myOccView) {
+void generateBuildings(std::shared_ptr<MapViewerOCC> myOccView) {
   // crashes, no time to debug
   std::thread thread(generateBuildingsTHREAD, myOccView);
   thread.join();
   // generateBuildingsTHREAD(myOccView);
 }
 
-void exportDataserversPoints(QMainWindow *mainWindow) {
+void exportDataserversPoints(QWidget *containerWidget) {
   QString fileName =
-      QFileDialog::getSaveFileName(mainWindow, QObject::tr("Save JSON"), "",
+      QFileDialog::getSaveFileName(containerWidget, QObject::tr("Save JSON"), "",
                                    QObject::tr("JSON (*.json);;All Files (*)"));
   std::string outputFileString = fileName.toStdString();
-  rapidjson::Document pointsJSON_Doc = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document pointsJSON_Doc = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/dataservers/"
       "F1DS9KoOKByvc0-uxyvoTV1UfQVVRJTC1QSS1Q/points");
   std::ofstream ofs(outputFileString.c_str());
@@ -78,13 +78,13 @@ void exportDataserversPoints(QMainWindow *mainWindow) {
 
 void unusedApiCalls() {
   // buildings with wifi data
-  rapidjson::Document buildingsWithWifi = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document buildingsWithWifi = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/elements/"
       "F1EmbgZy4oKQ9kiBiZJTW7eugwMLOlxFHu5hGUtUhRt5d2AAVVRJTC1BRlxBQ0VcVUMgREFW"
       "SVNcSUNTIEJVSUxESU5HUw/elements");
 
   // Click this link for an example response that shows the CAAN Value
-  rapidjson::Document buildingCAAN = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document buildingCAAN = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/attributes/"
       "F1AbEbgZy4oKQ9kiBiZJTW7eugwSTpv31Hu5hGUtUhRt5d2AAs4vVphFyDFs7-"
       "r25Y3ZvRQVVRJTC1BRlxBQ0VcVUMgREFWSVNcSUNTIEJVSUxESU5HU1xBQ0FEfEFTU0VUIE5"
@@ -92,7 +92,7 @@ void unusedApiCalls() {
 
   // This is a URL that gives the link that will let you find the CAAN for the
   // building named “ACAD”
-  rapidjson::Document findBuildingCAAN = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document findBuildingCAAN = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
       "attributes?path=%20\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
       "20Buildings\\ACAD|Asset%20Number");
@@ -102,7 +102,7 @@ void unusedApiCalls() {
    * first contact itsattribute path and get the WebID, e.g for building “ACAD”,
    * go to this URL:
    */
-  rapidjson::Document buildingWIFIinterpolated = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document buildingWIFIinterpolated = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
       "attributes?path=\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
       "20Buildings\\ACAD|WIFI%20Occupants");
@@ -111,7 +111,7 @@ void unusedApiCalls() {
    * Use this Web ID along with Interpolated Data method of the Streams
    * controller, e.g.:
    */
-  rapidjson::Document streamController = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document streamController = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/streams/"
       "F1AbEbgZy4oKQ9kiBiZJTW7eugwSTpv31Hu5hGUtUhRt5d2AAfUAWf7mHRFMQvB3Pt0VKPgV"
       "VRJTC1BRlxBQ0VcVUMgREFWSVNcSUNTIEJVSUxESU5HU1xBQ0FEfFdJRkkgT0NDVVBBTlRT/"
@@ -122,24 +122,24 @@ void unusedApiCalls() {
    * the desired interpolation interval, e.g. to get 1 hour of data for the year
    * of 2017:
    */
-  rapidjson::Document interpolatedTimeInterval = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document interpolatedTimeInterval = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/streams/"
       "F1AbEbgZy4oKQ9kiBiZJTW7eugwSTpv31Hu5hGUtUhRt5d2AAfUAWf7mHRFMQvB3Pt0VKPgV"
       "VRJTC1BRlxBQ0VcVUMgREFWSVNcSUNTIEJVSUxESU5HU1xBQ0FEfFdJRkkgT0NDVVBBTlRT/"
       "interpolated?starttime=2017&endtime=2018&interval=1h");
 
-  rapidjson::Document kwh_cost = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document kwh_cost = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwEttoGWANRE-ROARQB_"
       "54AgVVRJTC1BRlxVVElMSVRJRVNcVEFCTEVTW0tXSCBBTkQgVEhFUk0gQ09TVFNd/data");
 }
 
-void generateBuildingsTHREAD(OccView *myOccView) {
-  rapidjson::Document buildingInfo_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
+void generateBuildingsTHREAD(std::shared_ptr<MapViewerOCC> myOccView) {
+  rapidjson::Document buildingInfo_JSON_Doc = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwJhSOEaMUUUyOuVv2CDalxgVVRJTC1BRlxBQ0VcVEFCTEVT"
       "W0JVSUxESU5HX0RBVEFd/data");
-  rapidjson::Document CAAN_JSON_Doc = UCD3DA::HTTPS_GET_JSON(
+  rapidjson::Document CAAN_JSON_Doc = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/tables/"
       "F1BlbgZy4oKQ9kiBiZJTW7eugwaKgvLoXhX0GjDFptjwvTcQVVRJTC1BRlxDRUZTXFRBQkxF"
       "U1tMQVRfTE9OR19EQVRBXQ/data");

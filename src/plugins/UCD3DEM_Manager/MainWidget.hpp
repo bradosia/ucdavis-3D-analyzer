@@ -20,6 +20,8 @@
 // Universal Include
 #include "universalInclude.hpp"
 
+#include "view3DMap.hpp"
+
 /*
  * UCD3DEM = UC Davis 3D Electricity Map
  */
@@ -39,6 +41,34 @@ public:
     MapViewerOCC_Widget = widgetPtr_;
   }
 
+  void init();
+
+  void on_actionOpen_triggered();
+  void on_actionAbout_triggered();
+  void on_actionHelix_triggered();
+  void on_actionSphere_triggered();
+  void on_actionZoom_triggered();
+  void on_actionPan_triggered();
+  void on_actionRotate_triggered();
+  void on_actionReset_triggered();
+  void on_actionFitAll_triggered();
+  void on_actionBox_triggered();
+  void on_actionCone_triggered();
+  void on_actionCylinder_triggered();
+  void on_actionRevolve_triggered();
+  void on_actionLoft_triggered();
+  void on_actionCut_triggered();
+  void on_actionFuse_triggered();
+  void on_actionCommon_triggered();
+  void on_actionTorus_triggered();
+  void on_actionFillet_triggered();
+  void on_actionChamfer_triggered();
+  void on_actionExtrude_triggered();
+  void on_actionSelect_triggered();
+  void on_actionPlace_Buildings_triggered();
+  void on_actionEnergyUsage_triggered();
+  void on_actionData_Server_Points_triggered();
+
 protected:
   //! make cylindrical helix.
   void makeCylindricalHelix(void);
@@ -53,59 +83,6 @@ private:
   // widgets
   std::shared_ptr<UCD_OSI_Data> UCD_OSI_DataWidget;
   std::shared_ptr<MapViewerOCC> MapViewerOCC_Widget;
-
-private slots:
-  void on_actionOpen_triggered();
-
-  void on_actionAbout_triggered();
-
-  void on_actionHelix_triggered();
-
-  void on_actionSphere_triggered();
-
-  void on_actionZoom_triggered();
-
-  void on_actionPan_triggered();
-
-  void on_actionRotate_triggered();
-
-  void on_actionReset_triggered();
-
-  void on_actionFitAll_triggered();
-
-  void on_actionBox_triggered();
-
-  void on_actionCone_triggered();
-
-  void on_actionCylinder_triggered();
-
-  void on_actionRevolve_triggered();
-
-  void on_actionLoft_triggered();
-
-  void on_actionCut_triggered();
-
-  void on_actionFuse_triggered();
-
-  void on_actionCommon_triggered();
-
-  void on_actionTorus_triggered();
-
-  void on_actionFillet_triggered();
-
-  void on_actionChamfer_triggered();
-
-  void on_actionExtrude_triggered();
-
-  void on_actionSelect_triggered();
-
-  void on_actionPlace_Buildings_triggered();
-
-  void on_actionEnergyUsage_triggered();
-
-  void on_actionData_Server_Points_triggered();
-
-private:
 };
 
 } // namespace UCD3DEM

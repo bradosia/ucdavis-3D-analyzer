@@ -24,6 +24,10 @@
  */
 namespace UCD3DEM {
 
+void UCD3DEM_Manager::init(){
+ generateMap(MapViewerOCC_Widget);
+}
+
 void UCD3DEM_Manager::on_actionOpen_triggered() {
   std::string inputFileString, exportSTEP_NameString;
 
@@ -58,7 +62,7 @@ void UCD3DEM_Manager::on_actionBox_triggered() {
 
   anAisBox->SetColor(Quantity_NOC_AZURE);
 
-  myOccView->getContext()->Display(anAisBox, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionCone_triggered() {
@@ -78,7 +82,7 @@ void UCD3DEM_Manager::on_actionCone_triggered() {
   anAisCone->SetColor(Quantity_NOC_CHOCOLATE);
 
   MapViewerOCC_Widget->getContext()->Display(anAisReducer, Standard_True);
-  myOccView->getContext()->Display(anAisCone, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisCone, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionSphere_triggered() {
@@ -90,7 +94,7 @@ void UCD3DEM_Manager::on_actionSphere_triggered() {
 
   anAisSphere->SetColor(Quantity_NOC_BLUE1);
 
-  myOccView->getContext()->Display(anAisSphere, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisSphere, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionCylinder_triggered() {
@@ -110,8 +114,8 @@ void UCD3DEM_Manager::on_actionCylinder_triggered() {
 
   anAisPie->SetColor(Quantity_NOC_TAN);
 
-  myOccView->getContext()->Display(anAisCylinder, Standard_True);
-  myOccView->getContext()->Display(anAisPie, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisCylinder, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisPie, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionTorus_triggered() {
@@ -130,8 +134,8 @@ void UCD3DEM_Manager::on_actionTorus_triggered() {
 
   anAisElbow->SetColor(Quantity_NOC_THISTLE);
 
-  myOccView->getContext()->Display(anAisTorus, Standard_True);
-  myOccView->getContext()->Display(anAisElbow, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisTorus, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisElbow, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionFillet_triggered() {
@@ -149,7 +153,7 @@ void UCD3DEM_Manager::on_actionFillet_triggered() {
   Handle(AIS_Shape) anAisShape = new AIS_Shape(MF.Shape());
   anAisShape->SetColor(Quantity_NOC_VIOLET);
 
-  myOccView->getContext()->Display(anAisShape, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisShape, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionChamfer_triggered() {
@@ -173,7 +177,7 @@ void UCD3DEM_Manager::on_actionChamfer_triggered() {
   Handle(AIS_Shape) anAisShape = new AIS_Shape(MC.Shape());
   anAisShape->SetColor(Quantity_NOC_TOMATO);
 
-  myOccView->getContext()->Display(anAisShape, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisShape, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionExtrude_triggered() {
@@ -216,10 +220,10 @@ void UCD3DEM_Manager::on_actionExtrude_triggered() {
   anAisPrismCircle->SetColor(Quantity_NOC_PERU);
   anAisPrismEllipse->SetColor(Quantity_NOC_PINK);
 
-  myOccView->getContext()->Display(anAisPrismVertex, Standard_True);
-  myOccView->getContext()->Display(anAisPrismEdge, Standard_True);
-  myOccView->getContext()->Display(anAisPrismCircle, Standard_True);
-  myOccView->getContext()->Display(anAisPrismEllipse, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisPrismVertex, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisPrismEdge, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisPrismCircle, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisPrismEllipse, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionRevolve_triggered() {
@@ -267,10 +271,10 @@ void UCD3DEM_Manager::on_actionRevolve_triggered() {
   anAisRevolCircle->SetColor(Quantity_NOC_MAGENTA1);
   anAisRevolEllipse->SetColor(Quantity_NOC_MAROON);
 
-  myOccView->getContext()->Display(anAisRevolVertex, Standard_True);
-  myOccView->getContext()->Display(anAisRevolEdge, Standard_True);
-  myOccView->getContext()->Display(anAisRevolCircle, Standard_True);
-  myOccView->getContext()->Display(anAisRevolEllipse, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisRevolVertex, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisRevolEdge, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisRevolCircle, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisRevolEllipse, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionLoft_triggered() {
@@ -307,8 +311,8 @@ void UCD3DEM_Manager::on_actionLoft_triggered() {
   anAisShell->SetColor(Quantity_NOC_OLIVEDRAB);
   anAisSolid->SetColor(Quantity_NOC_PEACHPUFF);
 
-  myOccView->getContext()->Display(anAisShell, Standard_True);
-  myOccView->getContext()->Display(anAisSolid, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisShell, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisSolid, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionCut_triggered() {
@@ -337,10 +341,10 @@ void UCD3DEM_Manager::on_actionCut_triggered() {
   anAisCuttedShape1->SetColor(Quantity_NOC_TAN);
   anAisCuttedShape2->SetColor(Quantity_NOC_SALMON);
 
-  myOccView->getContext()->Display(anAisBox, Standard_True);
-  myOccView->getContext()->Display(anAisSphere, Standard_True);
-  myOccView->getContext()->Display(anAisCuttedShape1, Standard_True);
-  myOccView->getContext()->Display(anAisCuttedShape2, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisSphere, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisCuttedShape1, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisCuttedShape2, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionFuse_triggered() {
@@ -363,9 +367,9 @@ void UCD3DEM_Manager::on_actionFuse_triggered() {
   anAisSphere->SetColor(Quantity_NOC_STEELBLUE);
   anAisFusedShape->SetColor(Quantity_NOC_ROSYBROWN);
 
-  myOccView->getContext()->Display(anAisBox, Standard_True);
-  myOccView->getContext()->Display(anAisSphere, Standard_True);
-  myOccView->getContext()->Display(anAisFusedShape, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisSphere, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisFusedShape, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionCommon_triggered() {
@@ -388,9 +392,9 @@ void UCD3DEM_Manager::on_actionCommon_triggered() {
   anAisSphere->SetColor(Quantity_NOC_STEELBLUE);
   anAisCommonShape->SetColor(Quantity_NOC_ROYALBLUE);
 
-  myOccView->getContext()->Display(anAisBox, Standard_True);
-  myOccView->getContext()->Display(anAisSphere, Standard_True);
-  myOccView->getContext()->Display(anAisCommonShape, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisSphere, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisCommonShape, Standard_True);
 }
 
 void UCD3DEM_Manager::on_actionHelix_triggered() {
@@ -423,7 +427,7 @@ void UCD3DEM_Manager::makeCylindricalHelix() {
 
   Handle(AIS_Shape) anAisHelixCurve = new AIS_Shape(aTransform.Shape());
 
-  myOccView->getContext()->Display(anAisHelixCurve, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisHelixCurve, Standard_True);
 
   // sweep a circle profile along the helix curve.
   // there is no curve3d in the pcurve edge, so approx one.
@@ -449,7 +453,7 @@ void UCD3DEM_Manager::makeCylindricalHelix() {
 
     Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
     anAisPipe->SetColor(Quantity_NOC_CORAL);
-    myOccView->getContext()->Display(anAisPipe, Standard_True);
+    MapViewerOCC_Widget->getContext()->Display(anAisPipe, Standard_True);
   }
 }
 
@@ -479,7 +483,7 @@ void UCD3DEM_Manager::makeConicalHelix() {
 
   Handle(AIS_Shape) anAisHelixCurve = new AIS_Shape(aTransform.Shape());
 
-  myOccView->getContext()->Display(anAisHelixCurve, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisHelixCurve, Standard_True);
 
   // sweep a circle profile along the helix curve.
   // there is no curve3d in the pcurve edge, so approx one.
@@ -505,7 +509,7 @@ void UCD3DEM_Manager::makeConicalHelix() {
 
     Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
     anAisPipe->SetColor(Quantity_NOC_DARKGOLDENROD);
-    myOccView->getContext()->Display(anAisPipe, Standard_True);
+    MapViewerOCC_Widget->getContext()->Display(anAisPipe, Standard_True);
   }
 }
 
@@ -532,7 +536,7 @@ void UCD3DEM_Manager::makeToroidalHelix() {
 
   Handle(AIS_Shape) anAisHelixCurve = new AIS_Shape(aTransform.Shape());
 
-  myOccView->getContext()->Display(anAisHelixCurve, Standard_True);
+  MapViewerOCC_Widget->getContext()->Display(anAisHelixCurve, Standard_True);
 
   // sweep a circle profile along the helix curve.
   // there is no curve3d in the pcurve edge, so approx one.
@@ -558,32 +562,32 @@ void UCD3DEM_Manager::makeToroidalHelix() {
 
     Handle(AIS_Shape) anAisPipe = new AIS_Shape(aPipeTransform.Shape());
     anAisPipe->SetColor(Quantity_NOC_CORNSILK1);
-    myOccView->getContext()->Display(anAisPipe, Standard_True);
+    MapViewerOCC_Widget->getContext()->Display(anAisPipe, Standard_True);
   }
 }
 
-void UCD3DEM_Manager::on_actionZoom_triggered() { myOccView->zoom(); }
+void UCD3DEM_Manager::on_actionZoom_triggered() { MapViewerOCC_Widget->zoom(); }
 
-void UCD3DEM_Manager::on_actionPan_triggered() { myOccView->pan(); }
+void UCD3DEM_Manager::on_actionPan_triggered() { MapViewerOCC_Widget->pan(); }
 
-void UCD3DEM_Manager::on_actionRotate_triggered() { myOccView->rotate(); }
+void UCD3DEM_Manager::on_actionRotate_triggered() { MapViewerOCC_Widget->rotate(); }
 
-void UCD3DEM_Manager::on_actionReset_triggered() { myOccView->reset(); }
+void UCD3DEM_Manager::on_actionReset_triggered() { MapViewerOCC_Widget->reset(); }
 
-void UCD3DEM_Manager::on_actionFitAll_triggered() { myOccView->fitAll(); }
+void UCD3DEM_Manager::on_actionFitAll_triggered() { MapViewerOCC_Widget->fitAll(); }
 
-void UCD3DEM_Manager::on_actionSelect_triggered() { myOccView->select(); }
+void UCD3DEM_Manager::on_actionSelect_triggered() { MapViewerOCC_Widget->select(); }
 
 void UCD3DEM_Manager::on_actionPlace_Buildings_triggered() {
-  UCD3DA::generateBuildings(myOccView);
+  generateBuildings(MapViewerOCC_Widget);
 }
 
 void UCD3DEM_Manager::on_actionEnergyUsage_triggered() {
-  UCD3DA::generateBuildings(myOccView);
+  generateBuildings(MapViewerOCC_Widget);
 }
 
 void UCD3DEM_Manager::on_actionData_Server_Points_triggered() {
-  UCD3DA::exportDataserversPoints(this);
+  exportDataserversPoints(this);
 }
 
 } // namespace UCD3DEM

@@ -17,14 +17,13 @@
 #ifndef VIEW_3D_MAP_H
 #define VIEW_3D_MAP_H
 
-#include "UCDavis3DAnalyzer/amalgamated.h"
-
-class OccView;
+// Universal Include
+#include "universalInclude.hpp"
 
 /*
- * UCD3DA = UC Davis 3D Analyzer
+ * UCD3DEM = UC Davis 3D Electricity Map
  */
-namespace UCD3DA {
+namespace UCD3DEM {
 
 class coord {
 public:
@@ -33,11 +32,11 @@ public:
   float longitude;
 };
 
-void generateMap(OccView *myOccView);
-void generateBuildings(OccView *myOccView);
-void exportDataserversPoints(QMainWindow *mainWindow);
+void generateMap(std::shared_ptr<MapViewerOCC> myOccView);
+void generateBuildings(std::shared_ptr<MapViewerOCC> myOccView);
+void exportDataserversPoints(QWidget *containerWidget);
 void unusedApiCalls();
-void generateBuildingsTHREAD(OccView *myOccView);
+void generateBuildingsTHREAD(std::shared_ptr<MapViewerOCC> myOccView);
 
 } // namespace UCD3DA
 
