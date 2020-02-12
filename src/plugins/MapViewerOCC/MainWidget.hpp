@@ -31,6 +31,8 @@
 // Universal Include
 #include "universalInclude.hpp"
 
+#include "Shapes.hpp"
+
 /*
  * UCD3DEM = UC Davis 3D Electricity Map
  */
@@ -63,11 +65,22 @@ public:
 
   const Handle(AIS_InteractiveContext) & getContext() const;
 
+  // Callbacks
+  void setInitCallback(std::function<void(void)> cb_);
+
+  // interface
+  template <typename... Args> void viewRotate(Args... args) {
+    myView->Rotate(args...);
+  }
+  void addMarker(double height, double radius, double r, double g, double b,
+                 double x, double y, double z);
+  void generateMap();
+
 signals:
   void selectionChanged(void);
 
 public slots:
-  //! operations for the view.
+  // operations for the view.
   void select(void);
   void pan(void);
   void fitAll(void);
@@ -76,9 +89,6 @@ public slots:
   void rotate(void);
 
 protected:
-  // Callbacks
-  void setInitCallback(std::function<void(void)> cb_);
-
   // Paint events.
   virtual void paintEvent(QPaintEvent *theEvent);
   virtual void resizeEvent(QResizeEvent *theEvent);
@@ -103,7 +113,6 @@ protected:
   // Popup menu.
   virtual void addItemInPopup(QMenu *theMenu);
 
-protected:
   void init(void);
   void popup(const int x, const int y);
   void dragEvent(const int x, const int y);
@@ -120,29 +129,25 @@ private:
   // Callbacks
   std::function<void(void)> initCallback;
 
-  //! the occ viewer.
-  Handle(V3d_Viewer) myViewer;
+  // handles
+  opencascade::handle<V3d_Viewer> myViewer;
+  opencascade::handle<V3d_View> myView;
+  opencascade::handle<AIS_InteractiveContext> myContext;
 
-  //! the occ view.
-  Handle(V3d_View) myView;
+  // save the mouse position.
+  int myXmin;
+  int myYmin;
+  int myXmax;
+  int myYmax;
 
-  //! the occ context.
-  Handle(AIS_InteractiveContext) myContext;
-
-  //! save the mouse position.
-  Standard_Integer myXmin;
-  Standard_Integer myYmin;
-  Standard_Integer myXmax;
-  Standard_Integer myYmax;
-
-  //! the mouse current mode.
+  // the mouse current mode.
   CurrentAction3d myCurrentMode;
   mouse_button_left mouseButtonLeftMode;
 
-  //! save the degenerate mode state.
+  // save the degenerate mode state.
   Standard_Boolean myDegenerateModeIsOn;
 
-  //! rubber rectangle for the mouse selection.
+  // rubber rectangle for the mouse selection.
   QRubberBand *myRectBand;
   QOpenGLContext *mOpenGLContext;
 };

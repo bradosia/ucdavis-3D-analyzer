@@ -29,50 +29,6 @@ set(SHARED_LINK_LIBRARIES
     # QT5
     Qt5::Widgets
 
-    # 3D openCascade
-    TKSTEP
-    TKSTEPAttr
-    TKSTEP209
-    TKSTEPBase
-    TKXSBase
-    TKXCAF
-    TKOpenGl
-    TKV3d
-    TKService
-    TKCAF
-    TKOffset
-    TKFillet
-    TKBool
-    TKBO
-    TKShHealing
-    TKVCAF
-    TKMesh
-    TKHLR
-    TKPrim
-    TKTopAlgo
-    TKGeomAlgo
-    TKBRep
-    TKGeomBase
-    TKG3d
-    TKG2d
-    TKLCAF
-    TKCDF
-    TKernel
-    TKMath
-
-    # freetype
-    freetype
-    harfbuzz
-    gio-2.0
-    glib-2.0
-    intl
-    graphite2
-    libpng
-    bz2
-
-    # flatbuffers
-    flatbuffers
-
     # static link a bunch of stuff
     windowscodecs
     stdc++
@@ -102,50 +58,6 @@ set(SHARED_LINK_LIBRARIES
 set(STATIC_LINK_LIBRARIES
   # QT5
   Qt5::Widgets
-
-  # 3D openCascade
-  TKSTEP
-  TKSTEPAttr
-  TKSTEP209
-  TKSTEPBase
-  TKXSBase
-  TKXCAF
-  TKOpenGl
-  TKV3d
-  TKService
-  TKCAF
-  TKOffset
-  TKFillet
-  TKBool
-  TKBO
-  TKShHealing
-  TKVCAF
-  TKMesh
-  TKHLR
-  TKPrim
-  TKTopAlgo
-  TKGeomAlgo
-  TKBRep
-  TKGeomBase
-  TKG3d
-  TKG2d
-  TKLCAF
-  TKCDF
-  TKernel
-  TKMath
-
-  # freetype
-  freetype
-  harfbuzz
-  gio-2.0
-  glib-2.0
-  intl
-  graphite2
-  libpng
-  bz2
-
-  # flatbuffers
-  flatbuffers
 
   # static link a bunch of stuff
   z

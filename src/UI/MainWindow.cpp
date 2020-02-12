@@ -45,69 +45,57 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   }
 
   // initialize the map
-  // UCD3DEM_ManagerWidget->init();
+  UCD3DEM_ManagerWidget->init();
 }
 
-void MainWindow::on_actionOpen_triggered() {}
 
+void MainWindow::on_actionOpen_triggered() {
+    UCD3DEM_ManagerWidget->UI_About();
+}
 void MainWindow::on_actionAbout_triggered() {
-  UCD3DEM_ManagerWidget->on_actionAbout_triggered();
+  UCD3DEM_ManagerWidget->UI_About();
 }
 
-void MainWindow::on_actionHelix_triggered() {}
-
-void MainWindow::on_actionSphere_triggered() {}
-
-void MainWindow::on_actionZoom_triggered() {
-  UCD3DEM_ManagerWidget->on_actionZoom_triggered();
+// Toolbar
+void MainWindow::on_actionZoom_triggered() { UCD3DEM_ManagerWidget->mapZoom(); }
+void MainWindow::on_actionSelect_triggered() {
+  UCD3DEM_ManagerWidget->mapInputModeSelect();
 }
-
 void MainWindow::on_actionPan_triggered() {
-  UCD3DEM_ManagerWidget->on_actionPan_triggered();
+  UCD3DEM_ManagerWidget->mapInputModePan();
 }
-
 void MainWindow::on_actionRotate_triggered() {
-  UCD3DEM_ManagerWidget->on_actionRotate_triggered();
+  UCD3DEM_ManagerWidget->mapInputModeRotate();
 }
-
 void MainWindow::on_actionReset_triggered() {
-  UCD3DEM_ManagerWidget->on_actionReset_triggered();
+  UCD3DEM_ManagerWidget->mapReset();
 }
-
 void MainWindow::on_actionFitAll_triggered() {
-  UCD3DEM_ManagerWidget->on_actionFitAll_triggered();
+  UCD3DEM_ManagerWidget->mapFitAll();
 }
 
+// Test shape placing
+void MainWindow::on_actionHelix_triggered() {}
+void MainWindow::on_actionSphere_triggered() {}
 void MainWindow::on_actionBox_triggered() {}
-
 void MainWindow::on_actionCone_triggered() {}
-
 void MainWindow::on_actionCylinder_triggered() {}
-
 void MainWindow::on_actionRevolve_triggered() {}
-
 void MainWindow::on_actionLoft_triggered() {}
-
 void MainWindow::on_actionCut_triggered() {}
-
 void MainWindow::on_actionFuse_triggered() {}
-
 void MainWindow::on_actionCommon_triggered() {}
-
 void MainWindow::on_actionTorus_triggered() {}
-
 void MainWindow::on_actionFillet_triggered() {}
-
 void MainWindow::on_actionChamfer_triggered() {}
-
 void MainWindow::on_actionExtrude_triggered() {}
 
-void MainWindow::on_actionSelect_triggered() {}
-
 void MainWindow::on_actionPlace_Buildings_triggered() {
-  UCD3DEM_ManagerWidget->on_actionPlace_Buildings_triggered();
+  UCD3DEM_ManagerWidget->placeBuildings();
 }
 
-void MainWindow::on_actionEnergyUsage_triggered() {}
+void MainWindow::on_actionEnergyUsage_triggered() {
+  UCD3DEM_ManagerWidget->placeBuildings();
+}
 
 void MainWindow::on_actionData_Server_Points_triggered() {}

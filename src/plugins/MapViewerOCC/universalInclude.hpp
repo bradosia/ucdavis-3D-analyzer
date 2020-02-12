@@ -18,19 +18,20 @@
 #define MAP_VIEWER_OCC_UNIVERSAL_INCLUDE_H
 
 // c++17
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <utility>
-#include <thread>
 
 // c
 #define _USE_MATH_DEFINES // M_PI
 #include <cmath>
 #include <stdio.h>
+#include <stdlib.h> /* srand, rand */
 #include <string.h>
-#include <stdlib.h>     /* srand, rand */
 
 /* openCascade (OCCT) 7.4.0
  * OCCT library is designed to be truly modular and extensible, providing C++
@@ -95,10 +96,10 @@
 #include <XCAFDoc_ColorTool.hxx>
 
 #include <AIS_InteractiveContext.hxx>
-#include <OpenGl_GraphicDriver.hxx>
-#include <V3d_View.hxx>
 #include <Aspect_DisplayConnection.hxx>
 #include <Aspect_Handle.hxx>
+#include <OpenGl_GraphicDriver.hxx>
+#include <V3d_View.hxx>
 // textured shape
 #include <AIS_TexturedShape.hxx>
 
@@ -130,15 +131,15 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QMessageBox>
+#include <QMouseEvent>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
 #include <QOpenGLWidget>
 #include <QRubberBand>
 #include <QString>
-#include <QToolBar>
-#include <QTreeView>
-#include <QMouseEvent>
 #include <QStyleFactory>
+#include <QToolBar>
 #include <QTranslator>
+#include <QTreeView>
 
 #endif

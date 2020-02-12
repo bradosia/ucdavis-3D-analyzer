@@ -21,35 +21,6 @@
  */
 namespace UCD3DEM {
 
-void generateMap(std::shared_ptr<MapViewerOCC> myOccView) {
-  // create the shape
-  TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(1000, 1000, 5.0).Shape();
-  Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
-  anAisBox->SetColor(Quantity_NOC_AZURE);
-
-  // MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
-  // textured shape
-  Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
-  TCollection_AsciiString aFile(
-      "../ucdavis-3D-analyzer/resources/map_model/map/davis.png");
-  aTShape->SetTextureFileName(aFile);
-  aTShape->SetTextureMapOn();
-  // int nRepeat = 1;
-  double toScale = 1;
-  // aTShape->SetTextureRepeat(Standard_True, nRepeat, nRepeat);
-  aTShape->SetTextureRepeat(false, 1, 1);
-  aTShape->SetTextureScale(Standard_True, toScale, toScale);
-  aTShape->SetTextureOrigin(Standard_True, 0, 0);
-  // aTShape->DisableTextureModulate();
-  aTShape->SetDisplayMode(3); // mode 3 is "textured" mode
-  aTShape->SetMaterial(Graphic3d_NOM_SILVER);
-  // MapViewerOCC_Widget->getContext()->SetDisplayMode(aTShape, 3);
-  // MapViewerOCC_Widget->getContext()->Display(aTShape, 3,-1);
-  myOccView->getContext()->Display(aTShape, Standard_True);
-  // MapViewerOCC_Widget->getContext()->Display(aTShape);
-  myOccView->getContext()->UpdateCurrentViewer();
-  aTShape->UpdateAttributes();
-}
 void generateBuildings(std::shared_ptr<MapViewerOCC> myOccView) {
   // crashes, no time to debug
   std::thread thread(generateBuildingsTHREAD, myOccView);
@@ -58,9 +29,9 @@ void generateBuildings(std::shared_ptr<MapViewerOCC> myOccView) {
 }
 
 void exportDataserversPoints(QWidget *containerWidget) {
-  QString fileName =
-      QFileDialog::getSaveFileName(containerWidget, QObject::tr("Save JSON"), "",
-                                   QObject::tr("JSON (*.json);;All Files (*)"));
+  QString fileName = QFileDialog::getSaveFileName(
+      containerWidget, QObject::tr("Save JSON"), "",
+      QObject::tr("JSON (*.json);;All Files (*)"));
   std::string outputFileString = fileName.toStdString();
   rapidjson::Document pointsJSON_Doc = HTTPS_GET_JSON(
       "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/dataservers/"
@@ -92,20 +63,20 @@ void unusedApiCalls() {
 
   // This is a URL that gives the link that will let you find the CAAN for the
   // building named “ACAD”
-  rapidjson::Document findBuildingCAAN = HTTPS_GET_JSON(
-      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
-      "attributes?path=%20\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
-      "20Buildings\\ACAD|Asset%20Number");
+  rapidjson::Document findBuildingCAAN =
+      HTTPS_GET_JSON("https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
+                     "attributes?path=%20\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
+                     "20Buildings\\ACAD|Asset%20Number");
 
   /*
    * To get the interpolated data for a WiFI reading for a specific building,
    * first contact itsattribute path and get the WebID, e.g for building “ACAD”,
    * go to this URL:
    */
-  rapidjson::Document buildingWIFIinterpolated = HTTPS_GET_JSON(
-      "https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
-      "attributes?path=\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
-      "20Buildings\\ACAD|WIFI%20Occupants");
+  rapidjson::Document buildingWIFIinterpolated =
+      HTTPS_GET_JSON("https://ucd-pi-iis.ou.ad3.ucdavis.edu/piwebapi/"
+                     "attributes?path=\\\\UTIL-AF\\ACE\\UC%20Davis\\ICS%"
+                     "20Buildings\\ACAD|WIFI%20Occupants");
 
   /*
    * Use this Web ID along with Interpolated Data method of the Streams
@@ -194,34 +165,31 @@ void generateBuildingsTHREAD(std::shared_ptr<MapViewerOCC> myOccView) {
       float lat_transform = (coordRef.latitude - 38.5311) * 55500;
       // increase moves in Y
       float lon_transform = (coordRef.longitude + 121.765) * 55500;
+      // colors
+      double randomDecimal = (double)rand() / RAND_MAX;
+      double r, g, b, height;
+      r = g = b = 0;
+      height = randomDecimal * 20;
 
       if (lat_transform < 2000 && lat_transform > -2000 &&
           lon_transform > -2000 && lon_transform < 2000) {
-        gp_Ax2 anAxis;
-        anAxis.SetLocation(gp_Pnt(lat_transform, lon_transform, -8.0));
-        float r = (float)rand() / RAND_MAX;
-        TopoDS_Shape aTopoReducer =
-            BRepPrimAPI_MakeCone(anAxis, 3.0, 2.0, r * 20).Shape();
-        Handle(AIS_Shape) anAisReducer = new AIS_Shape(aTopoReducer);
         // color some markers for testing
         if (((coordRef.latitude < 38.53767461399 + epsilon &&
               coordRef.latitude > 38.53767461399 - epsilon) &&
              (coordRef.longitude < -121.748929568 + epsilon &&
               coordRef.longitude > -121.748929568 - epsilon))) {
-          anAisReducer->SetColor(
-              Quantity_Color(0, 0, 1, Quantity_TypeOfColor::Quantity_TOC_RGB));
+          b = 1;
         } else if (((coordRef.latitude < 38.54258398621 + epsilon &&
                      coordRef.latitude > 38.54258398621 - epsilon) &&
                     (coordRef.longitude < -121.750213638 + epsilon &&
                      coordRef.longitude > -121.750213638 - epsilon))) {
-          anAisReducer->SetColor(
-              Quantity_Color(0, 1, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
+          g = 1;
         } else {
           // need API call for electricity data, but same concept
-          anAisReducer->SetColor(
-              Quantity_Color(r, 0, 0, Quantity_TypeOfColor::Quantity_TOC_RGB));
+          r = randomDecimal;
         }
-        myOccView->getContext()->Display(anAisReducer, Standard_True);
+        myOccView->addMarker(height, 3.0, r, g, b, lat_transform, lon_transform,
+                             -8.0);
       }
 #ifdef DEBUG_3D_GENERATION
       printf("MARKER: %s (%f,%f)->(%f,%f)\n", buildingObj.c_str(),

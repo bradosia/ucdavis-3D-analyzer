@@ -34,50 +34,35 @@ public:
   UCD3DEM_Manager(QWidget *parent = nullptr){};
   ~UCD3DEM_Manager(){};
 
+  // Set Up Oriented Methods
   void setDataWidget(std::shared_ptr<UCD_OSI_Data> widgetPtr_) {
     UCD_OSI_DataWidget = widgetPtr_;
   }
   void setViewerWidget(std::shared_ptr<MapViewerOCC> widgetPtr_) {
     MapViewerOCC_Widget = widgetPtr_;
   }
-
   void init();
+  void MapViewerCallback(void);
 
-  void on_actionOpen_triggered();
-  void on_actionAbout_triggered();
-  void on_actionHelix_triggered();
-  void on_actionSphere_triggered();
-  void on_actionZoom_triggered();
-  void on_actionPan_triggered();
-  void on_actionRotate_triggered();
-  void on_actionReset_triggered();
-  void on_actionFitAll_triggered();
-  void on_actionBox_triggered();
-  void on_actionCone_triggered();
-  void on_actionCylinder_triggered();
-  void on_actionRevolve_triggered();
-  void on_actionLoft_triggered();
-  void on_actionCut_triggered();
-  void on_actionFuse_triggered();
-  void on_actionCommon_triggered();
-  void on_actionTorus_triggered();
-  void on_actionFillet_triggered();
-  void on_actionChamfer_triggered();
-  void on_actionExtrude_triggered();
-  void on_actionSelect_triggered();
-  void on_actionPlace_Buildings_triggered();
-  void on_actionEnergyUsage_triggered();
-  void on_actionData_Server_Points_triggered();
+  // UI elements
+  void UI_OpenFile();
+  void UI_About();
 
-protected:
-  //! make cylindrical helix.
-  void makeCylindricalHelix(void);
+  // Map Viewer Interaction
+  void mapZoom();
+  void mapReset();
+  void mapFitAll();
+  void mapInputModeSelect();
+  void mapInputModePan();
+  void mapInputModeRotate();
 
-  //! make conical helix.
-  void makeConicalHelix(void);
+  // Data
+  void getServerDataAll();
+  void dumpDataAll();
 
-  //! make toroidal helix.
-  void makeToroidalHelix(void);
+  // Heavy lifting
+  void placeBuildings();
+  void energyUsage();
 
 private:
   // widgets

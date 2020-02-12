@@ -4,7 +4,7 @@ project(ucdavis-3D-electricity-map VERSION 1.0.0 LANGUAGES CXX)
 set(EXENAME ucdavis-3D-electricity-map)
 
 # Configurable Options
-set(BUILD_SHARED_LIBS OFF)
+set(BUILD_SHARED_LIBS ON)
 set(BUILD_STATIC_LIBS ON)
 
 # Automatically compile .ui to .h
@@ -66,47 +66,6 @@ add_executable(${EXENAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${EXENAME} PRIVATE
   # QT5
   Qt5::Widgets
-
-  # 3D openCascade
-  TKSTEP
-  TKSTEPAttr
-  TKSTEP209
-  TKSTEPBase
-  TKXSBase
-  TKXCAF
-  TKOpenGl
-  TKV3d
-  TKService
-  TKCAF
-  TKOffset
-  TKFillet
-  TKBool
-  TKBO
-  TKShHealing
-  TKVCAF
-  TKMesh
-  TKHLR
-  TKPrim
-  TKTopAlgo
-  TKGeomAlgo
-  TKBRep
-  TKGeomBase
-  TKG3d
-  TKG2d
-  TKLCAF
-  TKCDF
-  TKernel
-  TKMath
-
-  # freetype
-  freetype
-  harfbuzz
-  gio-2.0
-  glib-2.0
-  intl
-  graphite2
-  libpng
-  bz2
 
   # HJSON for loading settings files
   hjson

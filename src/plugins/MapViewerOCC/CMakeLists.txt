@@ -8,10 +8,12 @@ set(libIncludeSubdir MapViewerOCC)
 # Set up source files
 set(SOURCES
   MainWidget.cpp
+  Shapes.cpp
 )
 
 set(HEADERS
   MainWidget.hpp
+  Shapes.hpp
   universalInclude.hpp
 )
 
@@ -67,9 +69,6 @@ set(SHARED_LINK_LIBRARIES
     graphite2
     libpng
     bz2
-
-    # flatbuffers
-    flatbuffers
 
     # static link a bunch of stuff
     z

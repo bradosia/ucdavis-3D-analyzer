@@ -32,7 +32,6 @@ public:
   float longitude;
 };
 
-void generateMap(std::shared_ptr<MapViewerOCC> myOccView);
 void generateBuildings(std::shared_ptr<MapViewerOCC> myOccView);
 void exportDataserversPoints(QWidget *containerWidget);
 void unusedApiCalls();

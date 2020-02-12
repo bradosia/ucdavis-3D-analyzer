@@ -98,13 +98,10 @@ void MapViewerOCC::init() {
 
   myContext->SetDisplayMode(AIS_Shaded, Standard_True);
 
+  // view initialized callback
   if (initCallback) {
     initCallback();
   }
-  // flip rotation because of weird texture inversion
-  // UCD3DA::generateMap(this);
-  myView->Rotate(270, 90, 180, 0, 0, 0);
-  fitAll();
 }
 
 const Handle(AIS_InteractiveContext) & MapViewerOCC::getContext() const {
@@ -377,6 +374,41 @@ void MapViewerOCC::panByMiddleButton(const QPoint &thePoint) {
   aCenterY = aSize.height() / 2;
 
   myView->Pan(aCenterX - thePoint.x(), thePoint.y() - aCenterY);
+}
+
+void MapViewerOCC::addMarker(double height, double radius, double r, double g, double b,
+               double x, double y, double z) {
+  makeCylinderMarker(myContext, height, radius, r, g, b, x, y, z);
+}
+
+void MapViewerOCC::generateMap() {
+  // create the shape
+  TopoDS_Shape aTopoBox = BRepPrimAPI_MakeBox(1000, 1000, 5.0).Shape();
+  Handle(AIS_Shape) anAisBox = new AIS_Shape(aTopoBox);
+  anAisBox->SetColor(Quantity_NOC_AZURE);
+
+  // MapViewerOCC_Widget->getContext()->Display(anAisBox, Standard_True);
+  // textured shape
+  Handle(AIS_TexturedShape) aTShape = new AIS_TexturedShape(aTopoBox);
+  TCollection_AsciiString aFile(
+      "../ucdavis-3D-analyzer/resources/map_model/map/davis.png");
+  aTShape->SetTextureFileName(aFile);
+  aTShape->SetTextureMapOn();
+  // int nRepeat = 1;
+  double toScale = 1;
+  // aTShape->SetTextureRepeat(Standard_True, nRepeat, nRepeat);
+  aTShape->SetTextureRepeat(false, 1, 1);
+  aTShape->SetTextureScale(Standard_True, toScale, toScale);
+  aTShape->SetTextureOrigin(Standard_True, 0, 0);
+  // aTShape->DisableTextureModulate();
+  aTShape->SetDisplayMode(3); // mode 3 is "textured" mode
+  aTShape->SetMaterial(Graphic3d_NOM_SILVER);
+  // MapViewerOCC_Widget->getContext()->SetDisplayMode(aTShape, 3);
+  // MapViewerOCC_Widget->getContext()->Display(aTShape, 3,-1);
+  myContext->Display(aTShape, Standard_True);
+  // MapViewerOCC_Widget->getContext()->Display(aTShape);
+  myContext->UpdateCurrentViewer();
+  aTShape->UpdateAttributes();
 }
 
 } // namespace UCD3DEM
