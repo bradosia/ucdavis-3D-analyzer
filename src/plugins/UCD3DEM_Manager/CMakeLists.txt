@@ -70,9 +70,6 @@ set(SHARED_LINK_LIBRARIES
     libpng
     bz2
 
-    # HJSON for loading settings files
-    hjson
-
     # flatbuffers
     flatbuffers
 

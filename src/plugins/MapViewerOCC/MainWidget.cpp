@@ -44,8 +44,10 @@ MapViewerOCC::MapViewerOCC(QWidget *parent)
   // mOpenGLContext->create();
 }
 
-MapViewerOCC::~MapViewerOCC() {
-  myViewer->Remove();
+MapViewerOCC::~MapViewerOCC() { myViewer->Remove(); }
+
+void MapViewerOCC::setInitCallback(std::function<void(void)> cb_) {
+  initCallback = cb_;
 }
 
 void MapViewerOCC::init() {
@@ -96,6 +98,9 @@ void MapViewerOCC::init() {
 
   myContext->SetDisplayMode(AIS_Shaded, Standard_True);
 
+  if (initCallback) {
+    initCallback();
+  }
   // flip rotation because of weird texture inversion
   // UCD3DA::generateMap(this);
   myView->Rotate(270, 90, 180, 0, 0, 0);
@@ -126,7 +131,9 @@ void MapViewerOCC::fitAll(void) {
   myView->Redraw();
 }
 
-void MapViewerOCC::select(void) { mouseButtonLeftMode = mouse_button_left_select; }
+void MapViewerOCC::select(void) {
+  mouseButtonLeftMode = mouse_button_left_select;
+}
 
 void MapViewerOCC::reset(void) { myView->Reset(); }
 
@@ -173,7 +180,8 @@ void MapViewerOCC::wheelEvent(QWheelEvent *theEvent) {
   onMouseWheel(theEvent->buttons(), theEvent->delta(), theEvent->pos());
 }
 
-void MapViewerOCC::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) {
+void MapViewerOCC::onLButtonDown(const int /*theFlags*/,
+                                 const QPoint thePoint) {
   // Save the current mouse coordinate in min.
   myXmin = thePoint.x();
   myYmin = thePoint.y();
@@ -184,7 +192,8 @@ void MapViewerOCC::onLButtonDown(const int /*theFlags*/, const QPoint thePoint) 
   }
 }
 
-void MapViewerOCC::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) {
+void MapViewerOCC::onMButtonDown(const int /*theFlags*/,
+                                 const QPoint thePoint) {
   // Save the current mouse coordinate in min.
   myXmin = thePoint.x();
   myYmin = thePoint.y();
@@ -195,12 +204,11 @@ void MapViewerOCC::onMButtonDown(const int /*theFlags*/, const QPoint thePoint) 
   }
 }
 
-void MapViewerOCC::onRButtonDown(const int /*theFlags*/, const QPoint /*thePoint*/) {
-
-}
+void MapViewerOCC::onRButtonDown(const int /*theFlags*/,
+                                 const QPoint /*thePoint*/) {}
 
 void MapViewerOCC::onMouseWheel(const int /*theFlags*/, const int theDelta,
-                           const QPoint thePoint) {
+                                const QPoint thePoint) {
   Standard_Integer aFactor = 16;
 
   Standard_Integer aX = thePoint.x();
@@ -336,8 +344,8 @@ void MapViewerOCC::multiMoveEvent(const int x, const int y) {
   myContext->MoveTo(x, y, myView, Standard_True);
 }
 
-void MapViewerOCC::drawRubberBand(const int minX, const int minY, const int maxX,
-                             const int maxY) {
+void MapViewerOCC::drawRubberBand(const int minX, const int minY,
+                                  const int maxX, const int maxY) {
   QRect aRect;
 
   // Set the rectangle correctly.
