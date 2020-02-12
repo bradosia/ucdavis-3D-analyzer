@@ -53,6 +53,9 @@ set(SHARED_LINK_LIBRARIES
     tiff
     # std::filesystem
     stdc++fs
+
+    UCD_OSI_DataSharedLib
+    MapViewerOCCSharedLib
 )
 
 set(STATIC_LINK_LIBRARIES

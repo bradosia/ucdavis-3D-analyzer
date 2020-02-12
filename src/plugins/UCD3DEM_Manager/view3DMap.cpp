@@ -24,7 +24,7 @@ namespace UCD3DEM {
 void generateBuildings(std::shared_ptr<MapViewerOCC> myOccView) {
   // crashes, no time to debug
   std::thread thread(generateBuildingsTHREAD, myOccView);
-  thread.join();
+  thread.detach();
   // generateBuildingsTHREAD(myOccView);
 }
 

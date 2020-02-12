@@ -16,7 +16,7 @@ set(HEADERS
 )
 
 set(SHARED_COMPILE_DEFINITIONS
-  -DSHARED_LIBRARY
+  -DSTATIC_LIBRARY
 )
 
 set(STATIC_COMPILE_DEFINITIONS
@@ -45,6 +45,29 @@ set(SHARED_LINK_LIBRARIES
   bcrypt
   crypt32
 
+  # static link a bunch of stuff
+  z
+  windowscodecs
+  stdc++
+  gcc
+  opengl32
+  glu32
+  gdi32
+  comdlg32
+  oleaut32
+  imm32
+  winmm
+  winspool
+  kernel32
+  user32
+  shell32
+  uuid
+  ole32
+  advapi32
+  ws2_32
+  mingw32
+  rpcrt4
+  tiff
   # std::filesystem
   stdc++fs
 )
